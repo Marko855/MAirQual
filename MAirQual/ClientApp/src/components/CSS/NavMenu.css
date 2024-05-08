@@ -1,0 +1,32 @@
+﻿.navbar-nav {
+    margin-right: auto;
+}
+
+.navbar-nav .nav-item {
+    margin-right: 10px;
+}
+
+.navbar-brand {
+    white-space: normal;
+    text-align: left;
+    word-break: break-all;
+}
+
+.logo-img {
+    width: 100px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
