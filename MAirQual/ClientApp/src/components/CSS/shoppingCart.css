@@ -1,0 +1,93 @@
+﻿.shop-header {
+    text-align: center;
+}
+
+.header-whole {
+    background-color: #96c0fa;
+    width: 150%;
+}
+
+.shop-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product-container {
+    position: relative;
+    background-color: #e2fcbb;
+    width: calc(33.33% - 40px);
+    margin: 20px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s, box-shadow 0.3s; /* Add box-shadow transition */
+}
+
+    .product-container:hover {
+        background-color: rgba(0, 0, 0, 0.2); /* Apply light black overlay on hover */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a subtle shadow on hover */
+    }
+
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    transition: filter 0.3s; /* Add transition for smoother effect */
+}
+
+.product-container:hover .product-image {
+    filter: grayscale(100%); /* Apply grayscale filter on hover */
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-name {
+    margin: 0;
+    padding: 5px;
+}
+
+.product-description {
+    margin: 0;
+    padding: 5px;
+}
+
+.product-price {
+    margin: 0;
+    padding: 5px;
+    font-size: 20px;
+}
+
+.add-to-cart-button {
+    position: absolute; /* Position the button absolutely */
+    top: 50%; /* Shift the button to the middle vertically */
+    left: 50%; /* Center the button horizontally */
+    transform: translate(-50%, -50%); /* Center the button perfectly */
+    width: 120px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #96c0fa;
+    display: none; /* Initially hide the button */
+    justify-content: center;
+    align-items: center;
+}
+
+.product-container:hover .add-to-cart-button {
+    display: flex; /* Show the button on hover */
+}

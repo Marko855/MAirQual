@@ -19,8 +19,24 @@ export class Register extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const { email, password } = this.state;
-        // Here you can perform your registration logic
-        console.log('Submitted:', { email, password });
+
+        fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('User registered successfully');
+                } else {
+                    console.error('Registration failed:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Registration failed:', error);
+            });
     }
 
     render() {
