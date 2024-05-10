@@ -24,7 +24,7 @@ export class Shop extends Component {
             <div className="shop-content">
                 <div className="header-whole">
                     <h1 className="shop-header">Shop</h1>
-                    <h5 className="shop-header">Clear skies ahead: Shop for cleaner air, right from your screen!</h5>
+                    <h5 className="shop-header">Shop for cleaner air, right from your screen!</h5>
                 </div>
                 <div className="products-container">
                     <div className="product-grid">

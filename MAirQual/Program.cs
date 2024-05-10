@@ -1,11 +1,17 @@
 ﻿using MAirQual.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System.Net.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<UserService>();
+
+// Register IHttpClientFactory
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
@@ -20,7 +26,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
@@ -28,4 +33,3 @@ app.MapControllerRoute(
 app.MapFallbackToFile("index.html");
 
 app.Run();
-

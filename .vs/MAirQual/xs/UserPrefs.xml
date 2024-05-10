@@ -1,12 +1,16 @@
 ﻿<Properties StartupConfiguration="{29690A72-88B3-4BE3-831F-FB2F847D57AC}|Default">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MAirQual/ClientApp/src/App.js">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="MAirQual/WeatherForecast.cs">
     <Files>
-      <File FileName="MAirQual/ClientApp/src/components/JS/Shop.js" Line="15" Column="35" />
-      <File FileName="MAirQual/ClientApp/src/AppRoutes.js" Line="12" Column="5" />
-      <File FileName="MAirQual/ClientApp/src/components/JS/Register.js" Line="1" Column="1" />
-      <File FileName="MAirQual/ClientApp/src/components/JS/News.js" Line="1" Column="1" />
-      <File FileName="MAirQual/ClientApp/src/App.js" Line="14" Column="32" />
+      <File FileName="MAirQual/ClientApp/src/components/JS/Home.js" Line="7" Column="23" />
+      <File FileName="MAirQual/Controllers/AirVisualController.cs" Line="6" Column="2" />
+      <File FileName="MAirQual/Program.cs" Line="19" Column="1" />
+      <File FileName="MAirQual/ClientApp/src/setupProxy.js" Line="9" Column="11" />
+      <File FileName="MAirQual/appsettings.json" Line="1" Column="1" />
+      <File FileName="MAirQual/WeatherForecast.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -16,15 +20,12 @@
               <Node name="ClientApp" expanded="True">
                 <Node name="src" expanded="True">
                   <Node name="components" expanded="True">
-                    <Node name="CSS" expanded="True" />
                     <Node name="JS" expanded="True" />
                   </Node>
-                  <Node name="App.js" selected="True" />
                 </Node>
               </Node>
               <Node name="Controllers" expanded="True" />
-              <Node name="Models" expanded="True" />
-              <Node name="Services" expanded="True" />
+              <Node name="WeatherForecast.cs" selected="True" />
             </Node>
           </Node>
         </State>
@@ -35,9 +36,6 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.MAirQual PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
 </Properties>
