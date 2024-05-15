@@ -1,22 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MAirQual.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AirVisualController : ControllerBase
+    public class CityFetchController : ControllerBase
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public AirVisualController(IHttpClientFactory httpClientFactory)
+        public CityFetchController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetCityData(string city, string state, string country)
+        [HttpGet("city")]
+        public async Task<IActionResult> GetCityData(float latitude, float longitude)
         {
             try
             {
@@ -25,7 +26,7 @@ namespace MAirQual.Controllers
                 var httpClient = _httpClientFactory.CreateClient();
 
                 // Make GET request to AirVisual API
-                HttpResponseMessage response = await httpClient.GetAsync($"http://api.airvisual.com/v2/city?city={city}&state={state}&country={country}&key={apiKey}");
+                HttpResponseMessage response = await httpClient.GetAsync($"http://api.airvisual.com/v2/nearest_city?lat={latitude}&lon={longitude}&key={apiKey}");
 
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();

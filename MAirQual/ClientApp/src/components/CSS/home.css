@@ -1,0 +1,29 @@
+﻿.city {
+    color: #333;
+    font-size: 24px;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pollution,
+.weather {
+    flex: 1;
+}
+
+    .pollution h3,
+    .weather h3 {
+        color: #666;
+    }
+
+    .pollution p,
+    .weather p {
+        margin: 5px 0;
+        color: #444;
+    }
+
+.no-data {
+    color: #f00; /* Red color for error message */
+}
