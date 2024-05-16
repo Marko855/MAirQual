@@ -1,23 +1,20 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace MAirQual.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CityFetchController : ControllerBase
+    public class StateFetchController : ControllerBase
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public CityFetchController(IHttpClientFactory httpClientFactory)
+        public StateFetchController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
 
-        [HttpGet("city")]
-        public async Task<IActionResult> GetCityData(float latitude, float longitude)
+        [HttpGet("state")]
+        public async Task<IActionResult> GetStateData(string country,string state)
         {
             try
             {
@@ -25,8 +22,8 @@ namespace MAirQual.Controllers
                 string apiKey = "e91fc4aa-cb69-4841-a5d9-d82d321df5ec";
                 var httpClient = _httpClientFactory.CreateClient();
 
-                // Make GET request to AirVisual API
-                HttpResponseMessage response = await httpClient.GetAsync($"http://api.airvisual.com/v2/nearest_city?lat={latitude}&lon={longitude}&key={apiKey}");
+                // Make GET request to AirVisual API for state data
+                HttpResponseMessage response = await httpClient.GetAsync($"http://api.airvisual.com/v2/cities?state={state}&country={country}&key={apiKey}");
 
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -35,7 +32,7 @@ namespace MAirQual.Controllers
             }
             catch (HttpRequestException ex)
             {
-                return StatusCode(500, $"Error fetching city data: {ex.Message}");
+                return StatusCode(500, $"Error fetching state data: {ex.Message}");
             }
         }
     }

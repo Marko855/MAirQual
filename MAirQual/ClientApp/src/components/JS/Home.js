@@ -6,12 +6,14 @@ export class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            airVisualData: null,
-            countryData: null, // New state for country data
-            loading: true, // Set loading to true initially
+            cityData: null,
+            countryData: null,
+            loading: true,
             latitude: null,
             longitude: null,
-            country: ''
+            country: '',
+            selectedCountry: '',
+            fetchingStateData: false
         };
     }
 
@@ -25,38 +27,31 @@ export class Home extends Component {
                 position => {
                     const { latitude, longitude } = position.coords;
                     this.setState({ latitude, longitude }, () => {
-                        this.fetchCityData(); // Call fetchCityData after setting latitude and longitude
+                        this.fetchCityCordData();
                     });
                 },
                 error => {
                     console.error('Error getting location:', error);
-                    // If location cannot be found, set latitude and longitude to null
                     this.setState({ latitude: null, longitude: null, loading: false });
                 }
             );
         } else {
             console.error('Geolocation is not supported by this browser.');
-            // If geolocation is not supported, set latitude and longitude to null
             this.setState({ latitude: null, longitude: null, loading: false });
         }
     };
 
-    fetchCityData = async () => {
+    fetchCityCordData = async () => {
         try {
             const { latitude, longitude } = this.state;
-            // Make a GET request to fetch city data using latitude and longitude
-            const response = await axios.get('https://localhost:44484/airvisual/city', {
+            const response = await axios.get('https://localhost:44484/CityCordFetch/city', {
                 params: {
                     latitude,
                     longitude
                 }
             });
 
-            // Log the response to the console
-            console.log('City Data:', response.data);
-
-            // Update state with the fetched city data
-            this.setState({ airVisualData: response.data, loading: false });
+            this.setState({ cityData: response.data, loading: false });
         } catch (error) {
             console.error('Error fetching city data:', error);
             this.setState({ loading: false });
@@ -65,21 +60,31 @@ export class Home extends Component {
 
     fetchCountryData = async (country) => {
         try {
-            // Make a GET request to fetch country data using the provided country parameter
-            const response = await axios.get('https://localhost:44484/airvisual/country', {
+            const response = await axios.get('https://localhost:44484/CountryFetch/country', {
                 params: {
                     country
                 }
             });
 
-            // Log the response to the console
-            console.log('Country Data:', response.data);
-
-            // Update state with the fetched country data
             this.setState({ countryData: response.data, loading: false });
         } catch (error) {
             console.error('Error fetching country data:', error);
             this.setState({ loading: false });
+        }
+    };
+
+    fetchStateData = async (country, state) => {
+        try {
+            const response = await axios.get('https://localhost:44484/StateFetch/state', {
+                params: {
+                    country,
+                    state
+                }
+            });
+
+            this.setState({ stateData: response.data });
+        } catch (error) {
+            console.error('Error fetching state data:', error);
         }
     };
 
@@ -90,52 +95,91 @@ export class Home extends Component {
     handleFormSubmit = event => {
         event.preventDefault();
         const { country } = this.state;
-        this.setState({ loading: true }, () => {
+        this.setState({ loading: true, selectedCountry: country }, () => {
             this.fetchCountryData(country);
         });
     };
 
+    handleStateButtonClick = async (state) => {
+        const { selectedCountry, fetchingStateData } = this.state;
+
+        if (fetchingStateData) {
+            return;
+        }
+
+        this.setState({ fetchingStateData: true });
+
+        this.setState({ selectedState: state }, async () => {
+            try {
+                document.querySelectorAll('.state-button').forEach(button => {
+                    button.disabled = true;
+                    button.classList.add('disabled-button');
+                });
+
+                await this.fetchStateData(selectedCountry, state);
+            } finally {
+                this.setState({ fetchingStateData: false });
+
+                setTimeout(() => {
+                    document.querySelectorAll('.state-button').forEach(button => {
+                        button.disabled = false;
+                        button.classList.remove('disabled-button');
+                    });
+                }, 7000);
+            }
+        });
+    };
+
+    handleCityButtonClick = async (city, state, country) => {
+        try {
+            const response = await axios.get('https://localhost:44484/CityNameFetch/city', {
+                params: {
+                    city,
+                    state,
+                    country
+                }
+            });
+
+            console.log('Response data:', response.data); 
+
+            
+            this.setState({ cityData: response.data }, () => {
+                console.log('Updated citylData:', this.state.cityData); // Log the updated state
+            });
+        } catch (error) {
+            console.error('Error fetching city data:', error);
+            this.setState({ loading: false });
+        }
+    };
+
+
+
     render() {
-        const {airVisualData, countryData } = this.state;
+        const { cityData, countryData, selectedCountry, stateData, selectedState } = this.state;
         return (
             <div>
-      {/* Render the fetched city data */}
-                {airVisualData && (
+                {cityData && (
                     <div>
-                        <h2 className="city">Your location: {airVisualData.data.city}, {airVisualData.data.state}</h2>
+                        <h2 className="city">Your location: {cityData.data.city}, {cityData.data.state}</h2>
                         <div className="info">
                             <div className="pollution">
                                 <h3>Pollution Data:</h3>
-                                <p>AQI US: {airVisualData.data.current.pollution.aqius}</p>
-                                <p>Main US: {airVisualData.data.current.pollution.mainus}</p>
-                                <p>AQI CN: {airVisualData.data.current.pollution.aqicn}</p>
-                                <p>Main CN: {airVisualData.data.current.pollution.maincn}</p>
+                                <p>AQI US: {cityData.data.current.pollution.aqius}</p>
+                                <p>Main US: {cityData.data.current.pollution.mainus}</p>
+                                <p>AQI CN: {cityData.data.current.pollution.aqicn}</p>
+                                <p>Main CN: {cityData.data.current.pollution.maincn}</p>
                             </div>
                             <div className="weather">
                                 <h3>Weather Data:</h3>
-                                <p>Temperature: {airVisualData.data.current.weather.tp}°C</p>
-                                <p>Pressure: {airVisualData.data.current.weather.pr}hPa</p>
-                                <p>Humidity: {airVisualData.data.current.weather.hu}%</p>
-                                <p>Wind Speed: {airVisualData.data.current.weather.ws}m/s</p>
-                                <p>Icon: {airVisualData.data.current.weather.ic}</p>
+                                <p>Temperature: {cityData.data.current.weather.tp}°C</p>
+                                <p>Pressure: {cityData.data.current.weather.pr}hPa</p>
+                                <p>Humidity: {cityData.data.current.weather.hu}%</p>
+                                <p>Wind Speed: {cityData.data.current.weather.ws}m/s</p>
+                                <p>Icon: {cityData.data.current.weather.ic}</p>
                             </div>
                         </div>
                     </div>
                 )}
-
-                {/* Render the fetched country data if available */}
-                {countryData && countryData.data && (
-                    <div>
-                        <h2>States in {countryData.country}</h2>
-                        <ul>
-                            {countryData.data.map((state, index) => (
-                                <li key={index}>{state.state}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-
-                {/* Render the form for entering country */}
                 <form onSubmit={this.handleFormSubmit}>
                     <label>
                         Enter Country:
@@ -143,6 +187,42 @@ export class Home extends Component {
                     </label>
                     <button type="submit">Fetch Data</button>
                 </form>
+                <div className="states-and-cities-container">
+                    {countryData && countryData.data && (
+                        <div className="states-container">
+                            <h2>States in {selectedCountry}:</h2>
+                            <ul>
+                                {countryData.data.map((state, index) => (
+                                    <li key={index}>
+                                        <button
+                                            className="state-button"
+                                            onClick={() => this.handleStateButtonClick(state.state)}
+                                        >
+                                            {state.state}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                    {stateData && (
+                        <div className="cities-container">
+                            <h2>Cities:</h2>
+                            <ul className="city-list">
+                                {stateData.data.map((city, index) => (
+                                    <li key={index}>
+                                        <button
+                                            className="city-button"
+                                            onClick={() => this.handleCityButtonClick(city.city, selectedState, selectedCountry)}
+                                        >
+                                            {city.city}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
             </div>
         );
     }
