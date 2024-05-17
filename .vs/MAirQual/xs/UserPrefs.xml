@@ -1,22 +1,15 @@
 ﻿<Properties StartupConfiguration="{29690A72-88B3-4BE3-831F-FB2F847D57AC}|Default">
-  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.MAirQual PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
   <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MAirQual">
-            <Node name="MAirQual" expanded="True">
-              <Node name="ClientApp" expanded="True">
-                <Node name="src" expanded="True">
-                  <Node name="components" expanded="True">
-                    <Node name="CSS" expanded="True" />
-                    <Node name="JS" expanded="True" />
-                  </Node>
-                  <Node name="App.js" selected="True" />
-                </Node>
-              </Node>
-              <Node name="Controllers" expanded="True" />
-            </Node>
+            <Node name="MAirQual" selected="True" />
           </Node>
         </State>
       </Pad>
@@ -25,10 +18,6 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.MAirQual PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

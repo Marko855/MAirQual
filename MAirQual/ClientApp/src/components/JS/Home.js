@@ -8,17 +8,62 @@ export class Home extends Component {
         this.state = {
             cityData: null,
             countryData: null,
+            stateData: null,
             loading: true,
             latitude: null,
             longitude: null,
             country: '',
             selectedCountry: '',
-            fetchingStateData: false
+            selectedState: '',
+            fetchingStateData: false,
+            requestCount: 0, // Counter for API requests
+            timeRemaining: 60, // Timer for request counter reset
         };
+        this.resetCounterTimer = null;
+        this.timerInterval = null;
     }
 
     componentDidMount() {
         this.fetchLocation();
+        this.startTimer();
+    }
+
+    componentWillUnmount() {
+        // Clear timers when the component unmounts
+        if (this.resetCounterTimer) {
+            clearTimeout(this.resetCounterTimer);
+        }
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+        }
+    }
+
+    resetRequestCounter = () => {
+        this.setState({ requestCount: 0, timeRemaining: 60 });
+    }
+
+    increaseRequestCounter = () => {
+        this.setState(prevState => ({ requestCount: prevState.requestCount + 1 }));
+        if (this.resetCounterTimer) {
+            clearTimeout(this.resetCounterTimer);
+        }
+        this.resetCounterTimer = setTimeout(this.resetRequestCounter, 60000); // Reset counter every 60 seconds
+    }
+
+    canMakeRequest = () => {
+        return this.state.requestCount < 5;
+    }
+
+    startTimer = () => {
+        this.timerInterval = setInterval(() => {
+            this.setState(prevState => {
+                if (prevState.timeRemaining > 0) {
+                    return { timeRemaining: prevState.timeRemaining - 1 };
+                } else {
+                    return { timeRemaining: 60 }; // Reset timer to 60 seconds
+                }
+            });
+        }, 1000);
     }
 
     fetchLocation = () => {
@@ -42,6 +87,10 @@ export class Home extends Component {
     };
 
     fetchCityCordData = async () => {
+        if (!this.canMakeRequest()) {
+            return;
+        }
+        this.increaseRequestCounter();
         try {
             const { latitude, longitude } = this.state;
             const response = await axios.get('https://localhost:44484/CityCordFetch/city', {
@@ -59,6 +108,10 @@ export class Home extends Component {
     };
 
     fetchCountryData = async (country) => {
+        if (!this.canMakeRequest()) {
+            return;
+        }
+        this.increaseRequestCounter();
         try {
             const response = await axios.get('https://localhost:44484/CountryFetch/country', {
                 params: {
@@ -74,6 +127,10 @@ export class Home extends Component {
     };
 
     fetchStateData = async (country, state) => {
+        if (!this.canMakeRequest()) {
+            return;
+        }
+        this.increaseRequestCounter();
         try {
             const response = await axios.get('https://localhost:44484/StateFetch/state', {
                 params: {
@@ -101,36 +158,18 @@ export class Home extends Component {
     };
 
     handleStateButtonClick = async (state) => {
-        const { selectedCountry, fetchingStateData } = this.state;
-
-        if (fetchingStateData) {
-            return;
-        }
-
-        this.setState({ fetchingStateData: true });
+        const { selectedCountry } = this.state;
 
         this.setState({ selectedState: state }, async () => {
-            try {
-                document.querySelectorAll('.state-button').forEach(button => {
-                    button.disabled = true;
-                    button.classList.add('disabled-button');
-                });
-
-                await this.fetchStateData(selectedCountry, state);
-            } finally {
-                this.setState({ fetchingStateData: false });
-
-                setTimeout(() => {
-                    document.querySelectorAll('.state-button').forEach(button => {
-                        button.disabled = false;
-                        button.classList.remove('disabled-button');
-                    });
-                }, 7000);
-            }
+            await this.fetchStateData(selectedCountry, state);
         });
     };
 
     handleCityButtonClick = async (city, state, country) => {
+        if (!this.canMakeRequest()) {
+            return;
+        }
+        this.increaseRequestCounter();
         try {
             const response = await axios.get('https://localhost:44484/CityNameFetch/city', {
                 params: {
@@ -140,11 +179,10 @@ export class Home extends Component {
                 }
             });
 
-            console.log('Response data:', response.data); 
+            console.log('Response data:', response.data);
 
-            
             this.setState({ cityData: response.data }, () => {
-                console.log('Updated citylData:', this.state.cityData); // Log the updated state
+                console.log('Updated cityData:', this.state.cityData);
             });
         } catch (error) {
             console.error('Error fetching city data:', error);
@@ -152,10 +190,8 @@ export class Home extends Component {
         }
     };
 
-
-
     render() {
-        const { cityData, countryData, selectedCountry, stateData, selectedState } = this.state;
+        const { cityData, countryData, selectedCountry, stateData, selectedState, timeRemaining } = this.state;
         return (
             <div>
                 {cityData && (
@@ -222,6 +258,9 @@ export class Home extends Component {
                             </ul>
                         </div>
                     )}
+                </div>
+                <div className="timer">
+                    Time until reset: {timeRemaining}s
                 </div>
             </div>
         );
