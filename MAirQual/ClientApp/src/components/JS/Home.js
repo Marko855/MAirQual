@@ -103,6 +103,7 @@ export class Home extends Component {
             this.setState({ cityData: response.data, loading: false });
         } catch (error) {
             console.error('Error fetching city data:', error);
+            alert("Too much request at the time.Wait a second!");
             this.setState({ loading: false });
         }
     };
@@ -122,6 +123,7 @@ export class Home extends Component {
             this.setState({ countryData: response.data, loading: false });
         } catch (error) {
             console.error('Error fetching country data:', error);
+            alert("Too much request at the time.Wait a second!");
             this.setState({ loading: false });
         }
     };
@@ -142,6 +144,7 @@ export class Home extends Component {
             this.setState({ stateData: response.data });
         } catch (error) {
             console.error('Error fetching state data:', error);
+            alert("Too much request at the time.Wait a second!");
         }
     };
 
@@ -186,25 +189,53 @@ export class Home extends Component {
             });
         } catch (error) {
             console.error('Error fetching city data:', error);
+            alert("Too much request at the time.Wait a second!");
             this.setState({ loading: false });
         }
     };
 
+    formatTimestamp = (timestamp) => {
+        const date = new Date(timestamp);
+        const formattedDate = date.toLocaleDateString(); // Format the date
+        const formattedTime = date.toLocaleTimeString(); // Format the time
+        return { formattedDate, formattedTime };
+    };
+
     render() {
         const { cityData, countryData, selectedCountry, stateData, selectedState, timeRemaining } = this.state;
+
+        const getAQIColor = (aqi) => {
+            if (aqi <= 50) return 'good';
+            if (aqi <= 100) return 'moderate';
+            if (aqi <= 150) return 'unhealthy-sg';
+            if (aqi <= 200) return 'unhealthy';
+            if (aqi <= 300) return 'very-unhealthy';
+            return 'hazardous';
+        };
+
         return (
-            <div>
+            <div className="container">
                 {cityData && (
-                    <div>
-                        <h2 className="city">Your location: {cityData.data.city}, {cityData.data.state}</h2>
+                    <div className="location-info">
+                        <h2 className="city">Your location: {cityData.data.city}, {cityData.data.state}, {cityData.data.country}</h2>
+
                         <div className="info">
                             <div className="pollution">
                                 <h3>Pollution Data:</h3>
-                                <p>AQI US: {cityData.data.current.pollution.aqius}</p>
-                                <p>Main US: {cityData.data.current.pollution.mainus}</p>
-                                <p>AQI CN: {cityData.data.current.pollution.aqicn}</p>
-                                <p>Main CN: {cityData.data.current.pollution.maincn}</p>
+                                {(() => {
+                                    const { formattedDate, formattedTime } = this.formatTimestamp(cityData.data.current.pollution.ts);
+                                    const aqiColorClass = getAQIColor(cityData.data.current.pollution.aqius);
+                                    return (
+                                        <>
+                                            <p>Date: {formattedDate}</p>
+                                            <p>Time: {formattedTime}</p>
+                                            <p className={`aqi ${aqiColorClass}`}>AQI US: {cityData.data.current.pollution.aqius}</p>
+                                            <p>Main pollutant: {cityData.data.current.pollution.mainus}</p>
+                                        </>
+                                    );
+                                })()}
                             </div>
+
                             <div className="weather">
                                 <h3>Weather Data:</h3>
                                 <p>Temperature: {cityData.data.current.weather.tp}°C</p>

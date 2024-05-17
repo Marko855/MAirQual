@@ -1,75 +1,155 @@
-﻿.city {
+﻿body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
     color: #333;
-    font-size: 24px;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h2 {
+    color: #2c3e50;
+}
+
+h3 {
+    color: #34495e;
+}
+
+.city {
+    margin-bottom: 10px;
 }
 
 .info {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 20px;
 }
 
-.pollution,
-.weather {
-    flex: 1;
+.pollution, .weather {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    width: 48%;
 }
 
-    .pollution h3,
-    .weather h3 {
-        color: #666;
-    }
-
-    .pollution p,
-    .weather p {
+    .pollution p, .weather p {
         margin: 5px 0;
-        color: #444;
     }
 
-.no-data {
-    color: #f00;
-}
-.state-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
+.aqi {
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 5px;
 }
 
-.state-button:hover {
-        background-color: #0056b3;
+.good {
+    color: black;
+    background-color: #00e400;
 }
 
-.state-button:focus {
-        outline: none;
+.moderate {
+    color: black;
+    background-color: #ffff00;
 }
+
+.unhealthy-sg {
+    color: black;
+    background-color: #ff7e00;
+}
+
+.unhealthy {
+    color: black;
+    background-color: #ff0000;
+}
+
+.very-unhealthy {
+    color: black;
+    background-color: #8f3f97;
+}
+
+.hazardous {
+    color: black;
+    background-color: #7e0023;
+}
+
+form {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+    form label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    form input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    form button {
+        background-color: #3498db;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        form button:hover {
+            background-color: #2980b9;
+        }
 
 .states-and-cities-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    margin-bottom: 20px;
 }
 
-.states-container {
-    flex: 1;
-    width: 40%;
+.states-container, .cities-container {
+    width: 48%;
 }
 
-.cities-container {
-    flex: 1;
-    width: 40%;
-}
+    .states-container ul, .cities-container ul {
+        list-style-type: none;
+        padding: 0;
+    }
 
-.disabled-button {
-    background-color: #ccc; /* Grey background color */
-    color: #666; /* Darker grey text color */
-    cursor: not-allowed; /* Show disabled cursor */
-}
-
-.city-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
+.state-button, .city-button {
+    background-color: #ecf0f1;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    color: #2c3e50;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
+
+    .state-button:hover, .city-button:hover {
+        background-color: #bdc3c7;
+    }
+
+.timer {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    text-align: center;
+    font-size: 1.2em;
+    color: #e74c3c;
+}
+
