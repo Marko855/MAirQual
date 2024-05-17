@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../CSS/home.css';
+import Bike from '../../Images/bike.png';
+import Window_icon from '../../Images/window.png';
 
 export class Home extends Component {
     constructor(props) {
@@ -213,6 +215,60 @@ export class Home extends Component {
             return 'hazardous';
         };
 
+        const generateRecommendations = (aqiCategory) => {
+            switch (aqiCategory) {
+                case 'good':
+                    return (
+                        <>
+                            <div className="recommendation">
+                                <img src={Bike} alt="Bike Icon" className="recommendation-icon" />
+                                <p>The air quality is good. Enjoy outdoor activities!</p>
+                            </div>
+                            <div className="recommendation">
+                                <img src={Window_icon} alt="Window Icon" className="recommendation-icon" />
+                                <p>Open windows and let fresh air into your home.</p>
+                            </div>
+                        </>
+                    );
+                case 'moderate':
+                    return (
+                        <>
+                            <p>Reduce outdoor activities, especially if you're in a sensitive group.</p>
+                        </>
+                    );
+                case 'unhealthy-sg':
+                    return (
+                        <>
+                            <p>Limit outdoor activities, especially if you have respiratory or heart conditions.</p>
+                            <p>Consider wearing masks rated for particulate matter if going outside is necessary.</p>
+                        </>
+                    );
+                case 'unhealthy':
+                    return (
+                        <>
+                            <p>People with respiratory or heart conditions should remain indoors and keep activity levels low.</p>
+                            <p>Ensure indoor air quality by keeping windows and doors closed, and using air purifiers if available.</p>
+                        </>
+                    );
+                case 'very-unhealthy':
+                    return (
+                        <>
+                            <p>Stay indoors as much as possible, especially for sensitive groups.</p>
+                            <p>Use air purifiers with HEPA filters indoors to improve air quality.</p>
+                        </>
+                    );
+                case 'hazardous':
+                    return (
+                        <>
+                            <p>Remain indoors and keep activity levels to a minimum.</p>
+                            <p>Close all windows and doors to prevent outdoor air from entering.</p>
+                        </>
+                    );
+                default:
+                    return "";
+            }
+        };
+
         return (
             <div className="container">
                 {cityData && (
@@ -244,6 +300,11 @@ export class Home extends Component {
                                 <p>Wind Speed: {cityData.data.current.weather.ws}m/s</p>
                                 <p>Icon: {cityData.data.current.weather.ic}</p>
                             </div>
+                        </div>
+
+                        <div className="recommendations">
+                            <h3>Recommendations:</h3>
+                            <p>{generateRecommendations(getAQIColor(cityData.data.current.pollution.aqius))}</p>
                         </div>
                     </div>
                 )}
