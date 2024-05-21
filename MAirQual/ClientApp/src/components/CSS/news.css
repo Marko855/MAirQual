@@ -1,0 +1,28 @@
+﻿/* news.css */
+.news-container {
+    max-width: 120%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.article {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.article img {
+        width: 150px;
+        height: auto;
+        margin-right: 20px;
+}
+
+.article-content h2 {
+    margin-top: 0;
+}
+
+.article-content a {
+    display: block;
+    color: blue;
+    text-decoration: none;
+    font-weight: bold;
+}

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MAirQual.Services;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using MAirQual.Services;
 
 namespace MAirQual.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class RegistrationController : ControllerBase
     {
         private readonly UserService _userService;
@@ -21,19 +16,11 @@ namespace MAirQual.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody] UserRegistrationRequest request)
+        public IActionResult Register([FromBody] UserRegistrationRequest request)
         {
-            try
-            {
-                // You may want to add validation logic here
-
-                await _userService.RegisterUser(request.Email, request.Password);
-                return Ok("Registration successful");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Registration failed: {ex.Message}");
-            }
+            // Currently, we are not using the UserService but keeping it for future use
+            // Return success message for every registration attempt
+            return Ok("Registration successful");
         }
     }
 

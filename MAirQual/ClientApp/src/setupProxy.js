@@ -8,7 +8,8 @@ const context = [
     "/StateFetch",
     "/CityCordFetch",
     "/CountryFetch",
-    "/CityNameFetch"
+    "/CityNameFetch",
+    "/Registration"
     // Add additional API paths here
 ];
 

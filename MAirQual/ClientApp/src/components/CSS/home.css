@@ -4,6 +4,7 @@
     color: #333;
     margin: 0;
     padding: 20px;
+    background-color: lightblue;
 }
 
 .container {
@@ -173,11 +174,74 @@ form {
     margin-bottom: 10px;
 }
 
-.recommendation-icon {
+.recommendation-icon-g {
     width: 50px;
     height: auto;
     margin-right: 10px;
     background-color: #00e400;
+}
+
+.recommendation-icon-m {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+    background-color: #ffff00;
+}
+
+.recommendation-icon-usg {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+    background-color: #ff7e00;
+}
+
+.recommendation-icon-u {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+    background-color: #ff0000;
+}
+
+.recommendation-icon-vu {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+    background-color: #8f3f97;
+}
+
+.recommendation-icon-h {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+    background-color: #7e0023;
+}
+
+
+.recommendations p {
+    font-size: 18px;
+    line-height: 1.5;
+    justify-content: space-between;
+    font-family: 'Arial', sans-serif;
+}
+
+.weather-details {
+    display: flex;
+    align-items: center;
+}
+
+.weather-info {
+    flex: 1;
+}
+
+.weather-icon{
+    width:300px;
+}
+
+.weather-icon img {
+    width: 100px;
+    height: 100px;
+    margin-left: 1px;
+    margin-right: 10px;
 }
 
 

@@ -1,4 +1,9 @@
-﻿.navbar-nav {
+﻿.navbar {
+    background-color: #fff; /* Change background color to white */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+}
+
+.navbar-nav {
     margin-right: auto;
 }
 
@@ -18,12 +23,12 @@
 }
 
 html {
-    font-size: 14px;
+    font-size: 15px;
 }
 
 @media (min-width: 768px) {
     html {
-        font-size: 16px;
+        font-size: 20px;
     }
 }
 
