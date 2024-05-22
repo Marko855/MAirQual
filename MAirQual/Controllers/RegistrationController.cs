@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MAirQual.Models;
 using MAirQual.Services;
 
 namespace MAirQual.Controllers
@@ -18,14 +19,30 @@ namespace MAirQual.Controllers
         [HttpPost]
         public IActionResult Register([FromBody] UserRegistrationRequest request)
         {
-            // Currently, we are not using the UserService but keeping it for future use
-            // Return success message for every registration attempt
+            // Check if the provided email already exists
+            if (_userService.UserExists(request.Email))
+            {
+                return Conflict("User already exists");
+            }
+
+            // Create a new user object
+            var newUser = new User
+            {
+                Username = request.Username,
+                Email = request.Email,
+                Password = request.Password // Note: Password hashing should be used in a real-world application
+            };
+
+            // Register the new user
+            _userService.RegisterUser(newUser);
+
+            // Return success message
             return Ok("Registration successful");
         }
     }
-
     public class UserRegistrationRequest
     {
+        public string? Username { get; set; }
         public string? Email { get; set; }
         public string? Password { get; set; }
     }

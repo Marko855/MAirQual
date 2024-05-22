@@ -1,7 +1,7 @@
 ﻿using MAirQual.Services;
 using Microsoft.AspNetCore.Mvc;
 
-[Route("api/[controller]")]
+[Route("[controller]")]
 [ApiController]
 public class UsersController : ControllerBase
 {
@@ -15,7 +15,7 @@ public class UsersController : ControllerBase
     [HttpGet]
     public IActionResult GetUsers()
     {
-        var users = _userService.GetUsers(); // Assuming GetUsers() returns the list of users
+        var users = _userService.GetAllUsers(); // Assuming GetUsers() returns the list of users
         return Ok(users);
     }
 }

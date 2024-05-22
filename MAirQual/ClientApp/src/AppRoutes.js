@@ -4,6 +4,7 @@ import { News } from "./components/JS/News"
 import { Shop } from "./components/JS/Shop"
 import { Register } from "./components/JS/Register"
 import { Login } from "./components/JS/Login"
+import { UserPage } from "./components/JS/UserPage";
 
 const AppRoutes = [
   {
@@ -29,6 +30,10 @@ const AppRoutes = [
     {
         path: '/Login',
         element: <Login />
+    },
+    {
+        path: '/UserPage',
+        element: <UserPage />
     },
 
 ];

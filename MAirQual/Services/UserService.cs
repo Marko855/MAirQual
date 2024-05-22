@@ -1,41 +1,32 @@
-﻿using System;
-using MAirQual.Models;
+﻿using MAirQual.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MAirQual.Services
 {
     public class UserService
     {
-        private readonly List<User> _users;
+        private readonly List<User> _users = new List<User>();
 
-        public UserService()
+        public bool UserExists(string email)
         {
-            // Initialize an empty list of users
-            _users = new List<User>();
+            return _users.Any(u => u.Email == email);
         }
 
-        public async Task RegisterUser(string email, string password)
+        public void RegisterUser(User user)
         {
-            // Check if user with the same email already exists
-            if (_users.Any(u => u.Email == email))
-            {
-                throw new Exception("User with the same email already exists.");
-            }
-
-            var user = new User
-            {
-                Email = email,
-                Password = password
-            };
-
-            // Add the new user to the list
-            Console.WriteLine("User added successfully on backend.");
             _users.Add(user);
         }
 
-        public List<User> GetUsers()
+        public List<User> GetAllUsers()
         {
-            // Return the list of users
             return _users;
+        }
+
+        public User Authenticate(string email, string password)
+        {
+            return _users.SingleOrDefault(u => u.Email == email && u.Password == password);
         }
     }
 }

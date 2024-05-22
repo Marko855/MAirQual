@@ -11,8 +11,10 @@ export class NavMenu extends Component {
         super(props);
 
         this.toggleNavbar = this.toggleNavbar.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
         this.state = {
-            collapsed: true
+            collapsed: true,
+            isLoggedIn: false 
         };
     }
 
@@ -20,6 +22,18 @@ export class NavMenu extends Component {
         this.setState({
             collapsed: !this.state.collapsed
         });
+    }
+
+    handleLogout() {
+        localStorage.removeItem('authToken'); // Remove the authentication token
+        this.setState({ isLoggedIn: false });
+        window.location.href = '/'; // Redirect to home page after logout
+    }
+
+    componentDidMount() {
+        // Check if the user is logged in (e.g., by checking a token in local storage)
+        const isLoggedIn = !!localStorage.getItem('authToken'); // Example check
+        this.setState({ isLoggedIn });
     }
 
     render() {
@@ -32,15 +46,27 @@ export class NavMenu extends Component {
                     <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
                     <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
                         <ul className="navbar-nav ml-auto">
-                            <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="/Register">Register</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="/Login">Login</NavLink>
-                            </NavItem>
+                            {this.state.isLoggedIn ? (
+                                <>
+                                    <NavItem>
+                                        <NavLink tag={Link} className="text-dark" to="/UserPage">User Page</NavLink>
+                                    </NavItem>
+                                    <NavItem>
+                                        <NavLink tag={Link} className="text-dark" onClick={this.handleLogout}>Logout</NavLink>
+                                    </NavItem>
+                                </>
+                            ) : (
+                                <>
+                                    <NavItem>
+                                        <NavLink tag={Link} className="text-dark" to="/Register">Register</NavLink>
+                                    </NavItem>
+                                    <NavItem>
+                                        <NavLink tag={Link} className="text-dark" to="/Login">Login</NavLink>
+                                    </NavItem>
+                                </>
+                            )}
                         </ul>
                         <ul className="navbar-nav">
-
                             <NavItem>
                                 <NavLink tag={Link} className="text-dark" to="/About">About</NavLink>
                             </NavItem>
@@ -57,3 +83,4 @@ export class NavMenu extends Component {
         );
     }
 }
+

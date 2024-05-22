@@ -9,7 +9,8 @@ const context = [
     "/CityCordFetch",
     "/CountryFetch",
     "/CityNameFetch",
-    "/Registration"
+    "/Registration",
+    "/Login"
     // Add additional API paths here
 ];
 

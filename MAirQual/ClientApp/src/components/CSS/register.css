@@ -1,0 +1,77 @@
+﻿.centered-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%; /* Adjust width as needed */
+    max-width: 400px;
+}
+
+    .form-container h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-container div {
+        margin-bottom: 15px;
+    }
+
+    .form-container label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-container input {
+        width: 100%;
+        padding: 10px; /* Adjust padding as needed */
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .form-container button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px; /* Adjust margin as needed */
+    }
+
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+
+.error-message {
+    color: red;
+}
+
+.success-message {
+    color: green;
+}
+
+.password-requirements ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.password-requirements li {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.password-requirements img {
+    margin-right: 5px;
+    width: 20px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+}
