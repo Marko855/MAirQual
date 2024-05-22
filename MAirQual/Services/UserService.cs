@@ -1,5 +1,5 @@
-﻿using MAirQual.Models;
-using System;
+﻿using MAirQual.Data;
+using MAirQual.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,26 +7,32 @@ namespace MAirQual.Services
 {
     public class UserService
     {
-        private readonly List<User> _users = new List<User>();
+        private readonly ApplicationDbContext _context;
+
+        public UserService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
         public bool UserExists(string email)
         {
-            return _users.Any(u => u.Email == email);
+            return _context.Users.Any(u => u.Email == email);
         }
 
         public void RegisterUser(User user)
         {
-            _users.Add(user);
+            _context.Users.Add(user);
+            _context.SaveChanges();
         }
 
         public List<User> GetAllUsers()
         {
-            return _users;
+            return _context.Users.ToList();
         }
 
         public User Authenticate(string email, string password)
         {
-            return _users.SingleOrDefault(u => u.Email == email && u.Password == password);
+            return _context.Users.SingleOrDefault(u => u.Email == email && u.Password == password);
         }
     }
 }

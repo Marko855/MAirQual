@@ -27,6 +27,12 @@ namespace MAirQual.Controllers
                 // Make GET request to AirVisual API for country data
                 HttpResponseMessage response = await _httpClient.GetAsync($"http://api.airvisual.com/v2/states?country={country}&key={apiKey}");
 
+                if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+                {
+                    // Return a 429 Too Many Requests response
+                    return StatusCode(429, "Too many requests. Please try again later.");
+                }
+
                 // Ensure a successful response
                 response.EnsureSuccessStatusCode();
 

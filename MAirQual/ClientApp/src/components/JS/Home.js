@@ -24,7 +24,8 @@ export class Home extends Component {
             selectedState: '',
             fetchingStateData: false,
             requestCount: 0, 
-            timeRemaining: 60, 
+            timeRemaining: 60,
+            errorMessage:''
         };
         this.resetCounterTimer = null;
         this.timerInterval = null;
@@ -95,6 +96,7 @@ export class Home extends Component {
 
     fetchCityCordData = async () => {
         if (!this.canMakeRequest()) {
+            alert("Too much request at the time.Wait a second!");
             return;
         }
         this.increaseRequestCounter();
@@ -117,6 +119,7 @@ export class Home extends Component {
 
     fetchCountryData = async (country) => {
         if (!this.canMakeRequest()) {
+            alert("Too much request at the time.Wait a second!");
             return;
         }
         this.increaseRequestCounter();
@@ -127,16 +130,21 @@ export class Home extends Component {
                 }
             });
 
-            this.setState({ countryData: response.data, loading: false });
+            this.setState({ countryData: response.data, loading: false, errorMessage: '' });
         } catch (error) {
             console.error('Error fetching country data:', error);
-            alert("Too much request at the time.Wait a second!");
-            this.setState({ loading: false });
+            if (error.response && error.response.status === 500) {
+                this.setState({
+                    errorMessage: "Error fetching country data. Wrong country name provided or country doesn't exist.", loading: false });
+            } else {
+                this.setState({loading: false });
+            }
         }
     };
 
     fetchStateData = async (country, state) => {
         if (!this.canMakeRequest()) {
+            alert("Too much request at the time.Wait a second!");
             return;
         }
         this.increaseRequestCounter();
@@ -162,7 +170,12 @@ export class Home extends Component {
     handleFormSubmit = event => {
         event.preventDefault();
         const { country } = this.state;
-        this.setState({ loading: true, selectedCountry: country }, () => {
+        this.setState({
+            loading: true,
+            selectedCountry: country,
+            countryData: null,
+            stateData:null,
+        }, () => {
             this.fetchCountryData(country);
         });
     };
@@ -209,7 +222,7 @@ export class Home extends Component {
     };
 
     render() {
-        const { cityData, countryData, selectedCountry, stateData, selectedState, timeRemaining } = this.state;
+        const { cityData, countryData, selectedCountry, stateData, selectedState, timeRemaining, errorMessage } = this.state;
 
         const getAQIColor = (aqi) => {
             if (aqi <= 50) return 'good';
@@ -364,8 +377,9 @@ export class Home extends Component {
                     </label>
                     <button type="submit">Fetch Data</button>
                 </form>
+                {errorMessage && <div className="error-message">{errorMessage}</div>}
                 <div className="states-and-cities-container">
-                    {countryData && countryData.data && (
+                    {countryData && countryData.data && countryData.data.length > 0 && (
                         <div className="states-container">
                             <h2>States in {selectedCountry}:</h2>
                             <ul>

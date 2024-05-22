@@ -1,13 +1,20 @@
-﻿using MAirQual.Services;
+﻿using MAirQual.Data;
+using MAirQual.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Net.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Configure Entity Framework and the SQL Server connection string
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add the UserService
 builder.Services.AddScoped<UserService>();
 
 // Register IHttpClientFactory

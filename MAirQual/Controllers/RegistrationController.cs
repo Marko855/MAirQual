@@ -19,25 +19,33 @@ namespace MAirQual.Controllers
         [HttpPost]
         public IActionResult Register([FromBody] UserRegistrationRequest request)
         {
-            // Check if the provided email already exists
-            if (_userService.UserExists(request.Email))
+            try
             {
-                return Conflict("User already exists");
+                // Check if the provided email already exists
+                if (_userService.UserExists(request.Email))
+                {
+                    return Conflict("User already exists");
+                }
+
+                // Create a new user object
+                var newUser = new User
+                {
+                    Username = request.Username,
+                    Email = request.Email,
+                    Password = request.Password // Note: Password hashing should be used in a real-world application
+                };
+
+                // Register the new user
+                _userService.RegisterUser(newUser);
+
+                // Return success message
+                return Ok("Registration successful");
             }
-
-            // Create a new user object
-            var newUser = new User
+            catch (Exception ex)
             {
-                Username = request.Username,
-                Email = request.Email,
-                Password = request.Password // Note: Password hashing should be used in a real-world application
-            };
-
-            // Register the new user
-            _userService.RegisterUser(newUser);
-
-            // Return success message
-            return Ok("Registration successful");
+                // Log the exception or handle it appropriately
+                return StatusCode(500, "An error occurred while registering the user.");
+            }
         }
     }
     public class UserRegistrationRequest
