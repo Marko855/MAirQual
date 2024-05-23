@@ -14,7 +14,7 @@ export class NavMenu extends Component {
         this.handleLogout = this.handleLogout.bind(this);
         this.state = {
             collapsed: true,
-            isLoggedIn: false 
+            isLoggedIn: false
         };
     }
 
@@ -31,8 +31,11 @@ export class NavMenu extends Component {
     }
 
     componentDidMount() {
-        // Check if the user is logged in (e.g., by checking a token in local storage)
-        const isLoggedIn = !!localStorage.getItem('authToken'); // Example check
+        // Check if authentication token exists in local storage
+        const authToken = localStorage.getItem('authToken');
+        const isLoggedIn = !!authToken;
+
+        // Update the state accordingly
         this.setState({ isLoggedIn });
     }
 
@@ -83,4 +86,3 @@ export class NavMenu extends Component {
         );
     }
 }
-

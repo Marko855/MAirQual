@@ -33,13 +33,12 @@ export class Login extends Component {
     }
 
     validatePassword() {
-        const { password, confirmPassword } = this.state;
+        const { password } = this.state;
         const passwordRequirements = {
             minLength: password.length >= 8,
             containsLetters: /[a-zA-Z]/.test(password),
             containsNumbers: /\d/.test(password),
-            containsSymbols: /[^a-zA-Z\d\s]/.test(password),
-            passwordsMatch: password === confirmPassword
+            containsSymbols: /[^a-zA-Z\d\s]/.test(password)
         };
         this.setState({ passwordRequirements });
     }
@@ -54,7 +53,10 @@ export class Login extends Component {
                     this.setState({ successMsg: 'User logged in successfully', errorMsg: '' });
                     console.log('User logged in successfully');
                     localStorage.setItem('authToken', response.data.token); // Assuming the token is in response.data.token
-                    window.location.href = '/'; // Redirect to homepage or another page after successful login
+                    // Redirect to homepage or another page after successful login
+                    // You may use React Router's history to navigate programmatically
+                    // Example: this.props.history.push('/');
+                    window.location.href = '/';
                 } else {
                     this.setState({ errorMsg: 'Login failed', successMsg: '' });
                     console.error('Login failed:', response.statusText);
@@ -67,7 +69,7 @@ export class Login extends Component {
     }
 
     render() {
-        const { email, password, confirmPassword,errorMsg, successMsg, passwordRequirements } = this.state;
+        const { email, password, errorMsg, successMsg, passwordRequirements } = this.state;
         return (
             <div className="centered-form">
                 <div className="form-container">
@@ -86,13 +88,8 @@ export class Login extends Component {
                                     <li>{passwordRequirements.containsLetters ? <img src={tickIcon} alt="Tick" /> : <img src={xIcon} alt="X" />} Contains letters</li>
                                     <li>{passwordRequirements.containsNumbers ? <img src={tickIcon} alt="Tick" /> : <img src={xIcon} alt="X" />} Contains numbers</li>
                                     <li>{passwordRequirements.containsSymbols ? <img src={tickIcon} alt="Tick" /> : <img src={xIcon} alt="X" />} Contains symbols</li>
-                                    <li>{passwordRequirements.passwordsMatch ? <img src={tickIcon} alt="Tick" /> : <img src={xIcon} alt="X" />} Passwords match</li>
                                 </ul>
                             </div>
-                        </div>
-                        <div>
-                            <label>Confirm Password:</label>
-                            <input type="password" name="confirmPassword" value={confirmPassword} onChange={this.handleChange} required />
                         </div>
                         <button type="submit">Login</button>
                     </form>

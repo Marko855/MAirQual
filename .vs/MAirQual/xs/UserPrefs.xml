@@ -1,42 +1,43 @@
 ﻿<Properties StartupConfiguration="{29690A72-88B3-4BE3-831F-FB2F847D57AC}|Default">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.MAirQual PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.MAirQual PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MAirQual/ClientApp/src/components/JS/Home.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MAirQual/appsettings.json">
     <Files>
-      <File FileName="MAirQual/ClientApp/src/components/JS/Register.js" Line="80" Column="79" />
-      <File FileName="MAirQual/ClientApp/src/components/JS/Login.js" Line="89" Column="57" />
-      <File FileName="MAirQual/ClientApp/src/components/CSS/register.css" Line="11" Column="1" />
-      <File FileName="MAirQual/ClientApp/src/components/CSS/login.css" Line="76" Column="2" />
-      <File FileName="MAirQual/Controllers/RegistrationController.cs" Line="20" Column="40" />
-      <File FileName="MAirQual/Models/User.cs" Line="12" Column="32" />
-      <File FileName="MAirQual/Controllers/UsersController.cs" Line="1" Column="1" />
-      <File FileName="MAirQual/Controllers/LoginController.cs" Line="1" Column="1" />
-      <File FileName="MAirQual/.gitignore" Line="1" Column="1" />
-      <File FileName="MAirQual/Services/UserService.cs" Line="20" Column="10" />
-      <File FileName="MAirQual/ClientApp/src/components/CSS/home.css" Line="1" Column="1" />
-      <File FileName="MAirQual/ClientApp/src/components/JS/Home.js" Line="136" Column="7" />
+      <File FileName="MAirQual/ClientApp/src/components/JS/Register.js" />
+      <File FileName="MAirQual/ClientApp/src/components/JS/Login.js" />
+      <File FileName="MAirQual/ClientApp/src/components/CSS/register.css" />
+      <File FileName="MAirQual/ClientApp/src/components/CSS/login.css" />
+      <File FileName="MAirQual/Controllers/RegistrationController.cs" Line="49" Column="10" />
+      <File FileName="MAirQual/Models/User.cs" Line="22" Column="1" />
+      <File FileName="MAirQual/Controllers/UsersController.cs" />
+      <File FileName="MAirQual/Controllers/LoginController.cs" Line="23" Column="1" />
+      <File FileName="MAirQual/.gitignore" />
+      <File FileName="MAirQual/Services/UserService.cs" Line="39" Column="1" />
+      <File FileName="MAirQual/ClientApp/src/components/CSS/home.css" />
+      <File FileName="MAirQual/ClientApp/src/components/JS/Home.js" Line="121" Column="23" />
+      <File FileName="MAirQual/Controllers/CountryFetchController.cs" Line="62" Column="1" />
+      <File FileName="MAirQual/Models/ApplicationDbContext.cs" Line="16" Column="1" />
+      <File FileName="MAirQual/appsettings.json" Line="14" Column="1" />
+      <File FileName="MAirQual/appsettings.Development.json" Line="1" Column="1" />
+      <File FileName="MAirQual/Program.cs" Line="43" Column="1" />
+      <File FileName="MAirQual/ClientApp/src/setupProxy.js" Line="1" Column="1" />
+      <File FileName="MAirQual/Properties/launchSettings.json" Line="1" Column="1" />
+      <File FileName="MAirQual/Migrations/20240522222852_InitialCreate.cs" Line="1" Column="1" />
+      <File FileName="MAirQual/Migrations/ApplicationDbContextModelSnapshot.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MAirQual">
             <Node name="MAirQual">
-              <Node name="ClientApp">
-                <Node name="src">
-                  <Node name="components">
-                    <Node name="CSS" expanded="True" />
-                  </Node>
-                  <Node name="Images" expanded="True" />
-                </Node>
-                <Node name="package.json" expanded="True" />
-              </Node>
-              <Node name="Controllers" expanded="True" />
-              <Node name="Models" expanded="True" />
+              <Node name="Dependencies" expanded="True" />
               <Node name="Services" expanded="True" />
+              <Node name="appsettings.json" expanded="True" selected="True" />
             </Node>
           </Node>
         </State>
@@ -46,5 +47,4 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MultiItemStartupConfigurations />
 </Properties>

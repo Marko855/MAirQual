@@ -46,7 +46,6 @@ export class Register extends Component {
         this.setState({ passwordRequirements });
     }
 
-
     handleSubmit(event) {
         event.preventDefault();
         const { username, email, password } = this.state;
