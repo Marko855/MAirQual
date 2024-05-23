@@ -52,7 +52,7 @@ namespace MAirQual.Controllers
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new[] { new Claim("email", email) }),
-                    Expires = DateTime.UtcNow.AddDays(1), // Token expiration time
+                    Expires = DateTime.UtcNow.AddHours(1), // Token expiration time
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);

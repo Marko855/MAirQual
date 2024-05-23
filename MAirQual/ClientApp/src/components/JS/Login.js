@@ -45,25 +45,48 @@ export class Login extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { email, password } = this.state;
+        const { email, password, passwordRequirements } = this.state;
+
+        if (!passwordRequirements.minLength ||
+            !passwordRequirements.containsLetters ||
+            !passwordRequirements.containsNumbers ||
+            !passwordRequirements.containsSymbols) {
+            this.setState({ errorMsg: 'Password does not meet the requirements', successMsg: '' });
+            return;
+        }
 
         axios.post('https://localhost:44484/Login', { email, password })
             .then(response => {
                 if (response.status === 200) {
                     this.setState({ successMsg: 'User logged in successfully', errorMsg: '' });
                     console.log('User logged in successfully');
-                    localStorage.setItem('authToken', response.data.token); // Assuming the token is in response.data.token
-                    // Redirect to homepage or another page after successful login
-                    // You may use React Router's history to navigate programmatically
-                    // Example: this.props.history.push('/');
-                    window.location.href = '/';
+
+                    setTimeout(function () {
+                        localStorage.setItem('authToken', response.data.token);
+                        window.location.href = '/';
+                    }, 2000); 
                 } else {
+
+                    this.setState({
+                        email: '',
+                        password: ''
+                    });
+
                     this.setState({ errorMsg: 'Login failed', successMsg: '' });
                     console.error('Login failed:', response.statusText);
                 }
             })
             .catch(error => {
-                this.setState({ errorMsg: 'Login failed: ' + error.message, successMsg: '' });
+                this.setState({
+                    email: '',
+                    password: ''
+                });
+
+                if (error.response && error.response.status === 401) {
+                    this.setState({ errorMsg: 'Login failed: Invalid email or password!', successMsg: '' });
+                } else {
+                    this.setState({ errorMsg: 'Login failed: ' + error.message, successMsg: '' });
+                }
                 console.error('Login failed:', error);
             });
     }

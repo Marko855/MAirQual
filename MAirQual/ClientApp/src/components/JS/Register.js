@@ -48,21 +48,49 @@ export class Register extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { username, email, password } = this.state;
+        const { username, email, password, passwordRequirements } = this.state;
+
+        if (!passwordRequirements.minLength ||
+            !passwordRequirements.containsLetters ||
+            !passwordRequirements.containsNumbers ||
+            !passwordRequirements.containsSymbols ||
+            !passwordRequirements.passwordsMatch) {
+            this.setState({ errorMsg: 'Password does not meet the requirements', successMsg: '' });
+            return;
+        }
 
         axios.post('https://localhost:44484/Registration', { username, email, password })
             .then(response => {
                 if (response.status === 200) {
                     this.setState({ successMsg: 'User registered successfully', errorMsg: '' });
                     console.log('User registered successfully');
-                    window.location.href = '/login';
+                    setTimeout(function () {
+                        window.location.href = '/login';
+                    }, 2000);
                 } else {
+                    this.setState({
+                        username: '',
+                        email: '',
+                        password: '',
+                        confirmPassword: ''
+                    });
+
                     this.setState({ errorMsg: 'Registration failed', successMsg: '' });
                     console.error('Registration failed:', response.statusText);
                 }
             })
             .catch(error => {
-                this.setState({ errorMsg: 'Registration failed: ' + error.message, successMsg: '' });
+                this.setState({
+                    username: '',
+                    email: '',
+                    password: '',
+                    confirmPassword: ''
+                });
+                if (error.response && error.response.status === 409) {
+                    this.setState({ errorMsg: 'Registration failed: User already exists!', successMsg: '' });
+                } else {
+                    this.setState({ errorMsg: 'Registration failed: ' + error.message, successMsg: '' });
+                }
                 console.error('Registration failed:', error);
             });
     }
