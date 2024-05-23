@@ -60,9 +60,10 @@ export class Login extends Component {
                 if (response.status === 200) {
                     this.setState({ successMsg: 'User logged in successfully', errorMsg: '' });
                     console.log('User logged in successfully');
+                    alert(response.data.token)
+                    localStorage.setItem('authToken', response.data.token);
 
                     setTimeout(function () {
-                        localStorage.setItem('authToken', response.data.token);
                         window.location.href = '/';
                     }, 2000); 
                 } else {

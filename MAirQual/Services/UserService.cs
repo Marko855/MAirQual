@@ -34,5 +34,10 @@ namespace MAirQual.Services
         {
             return _context.Users.SingleOrDefault(u => u.Email == email && u.Password == password);
         }
+
+        public User GetUserByEmail(string email)
+        {
+            return _context.Users.SingleOrDefault(u => u.Email == email);
+        }
     }
 }

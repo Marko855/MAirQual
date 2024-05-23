@@ -10,7 +10,8 @@ const context = [
     "/CountryFetch",
     "/CityNameFetch",
     "/Registration",
-    "/Login"
+    "/Login",
+    "/UserPage"
     // Add additional API paths here
 ];
 
