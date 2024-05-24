@@ -242,3 +242,7 @@ form {
         margin-left: 1px;
         margin-right: 10px;
     }
+
+ul {
+    list-style-type: none;
+}

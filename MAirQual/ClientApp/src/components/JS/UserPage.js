@@ -71,7 +71,7 @@ export class UserPage extends Component {
                 // Group the values into chunks of three (city, state, country)
                 for (let i = 0; i < favoritesArray.length; i += 3) {
                     const [city, state, country] = favoritesArray.slice(i, i + 3);
-                    favoritesData.push({ city, state, country });
+                    favoritesData.push({ city, state, country,deleted: false });
                 }
                 this.setState({ favorites: favoritesData, loadingFavorites: false });
 
@@ -108,7 +108,7 @@ export class UserPage extends Component {
         try {
             // Remove the location from the frontend state
             const updatedFavorites = [...this.state.favorites];
-            updatedFavorites.splice(index, 1);
+            updatedFavorites[index].deleted = true; // Mark as deleted
             this.setState({ favorites: updatedFavorites });
 
             // Make an HTTP DELETE request to the server to remove the location from the database
@@ -256,7 +256,7 @@ export class UserPage extends Component {
                 {loadingFavorites && <div>Loading favorite locations...</div>}
                 {!loadingFavorites && (
                     <div className="favourites-container">
-                        {favorites.some(favorite => favorite.city && favorite.state && favorite.country) ? (
+                        {favorites.filter(favorite => !favorite.deleted).some(favorite => favorite.city && favorite.state && favorite.country) ? (
                             <h2>Favorite Locations:</h2>
                         ) : (
                             <h2>Favorite Locations: None</h2>
@@ -265,7 +265,7 @@ export class UserPage extends Component {
                             {favorites.map((favorite, index) => (
                                 <li key={index}>
                                     {/* Check if favorite entry contains valid data */}
-                                    {favorite.city && favorite.state && favorite.country && (
+                                    {favorite.city && favorite.state && favorite.country && !favorite.deleted && (
                                         <>
                                             {favorite.city}, {favorite.state}, {favorite.country}
                                             {/** Render buttons only if there are favorited countries */}
@@ -287,10 +287,12 @@ export class UserPage extends Component {
                         </ul>
                     </div>
                 )}
+
                 {/* Render city data for each favorite location */}
                 {loadingCityData && <div>Loading city data...</div>}
                 {!loadingCityData && cityData_favorites.length > 0 && (
                     cityData_favorites.map((cityData, index) => (
+                        !favorites[index].deleted && (
                         <div key={index} className="location-info">
                             <h2 className="city">Location: {cityData.data.city}, {cityData.data.state}, {cityData.data.country}</h2>
                             <div className="info">
@@ -330,7 +332,8 @@ export class UserPage extends Component {
                                 <h3>Recommendations:</h3>
                                 {this.generateRecommendations(this.getAQIColor(cityData.data.current.pollution.aqius))}
                             </div>
-                        </div>
+                            </div>
+                        )
                     ))
                 )}
             </div>
