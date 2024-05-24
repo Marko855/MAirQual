@@ -50,12 +50,10 @@ namespace MAirQual.Controllers
             return Ok(favoritesString);
         }
 
-
         [HttpPost]
         public IActionResult AddFavoriteLocation(FavoriteLocationRequest request)
         {
             var claims = User.Claims;
-
             var email = claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
             Console.WriteLine(email);
             if (email == null)
@@ -74,6 +72,30 @@ namespace MAirQual.Controllers
             _userService.AddFavoriteLocation(user.Id, request.Location);
 
             return Ok(new { message = "Favorite location added successfully" });
+        }
+
+        [HttpDelete("{index}")]
+        public IActionResult DeleteFavoriteLocation(int index)
+        {
+            var claims = User.Claims;
+            var email = claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
+
+            if (email == null)
+            {
+                return Unauthorized();
+            }
+
+            var user = _userService.GetUserByEmail(email);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Remove the favorite location from the database or any storage mechanism
+            _userService.DeleteFavoriteLocation(user.Id, index);
+
+            return Ok(new { message = "Favorite location deleted successfully" });
         }
     }
 }

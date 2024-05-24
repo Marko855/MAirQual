@@ -73,9 +73,8 @@ export class UserPage extends Component {
                     const [city, state, country] = favoritesArray.slice(i, i + 3);
                     favoritesData.push({ city, state, country });
                 }
-                console.log('Favorites Data:', favoritesData);
                 this.setState({ favorites: favoritesData, loadingFavorites: false });
-
+                
             } else {
                 console.error('Error: Unexpected format of favorite locations data');
                 this.setState({ loadingFavorites: false });
@@ -104,6 +103,29 @@ export class UserPage extends Component {
             this.setState({ loadingCityData: false });
         }
     };
+
+    deleteFavoriteLocation = async (index) => {
+        try {
+            // Remove the location from the frontend state
+            const updatedFavorites = [...this.state.favorites];
+            updatedFavorites.splice(index, 1);
+            this.setState({ favorites: updatedFavorites });
+
+            // Make an HTTP DELETE request to the server to remove the location from the database
+            const authToken = sessionStorage.getItem('authToken');
+            await axios.delete(`https://localhost:44484/Favorites/${index}`, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            });
+            console.log('Location deleted successfully from the database.');
+        } catch (error) {
+            console.error('Error deleting location:', error);
+            // Handle error
+        }
+    };
+
+
 
     getAQIColor = (aqi) => {
         if (aqi <= 50) return 'good';
@@ -232,20 +254,34 @@ export class UserPage extends Component {
                 )}
                 {/* Render favorite locations from the server */}
                 {loadingFavorites && <div>Loading favorite locations...</div>}
-                {!loadingFavorites && favorites.length > 0 && (
+                {!loadingFavorites && (
                     <div className="favourites-container">
-                        <h2>Favorite Locations:</h2>
+                        {favorites.some(favorite => favorite.city && favorite.state && favorite.country) ? (
+                            <h2>Favorite Locations:</h2>
+                        ) : (
+                            <h2>Favorite Locations: None</h2>
+                        )}
                         <ul>
                             {favorites.map((favorite, index) => (
                                 <li key={index}>
-                                    {favorite.city}, {favorite.state}, {favorite.country}
-                                    <button
-                                        onClick={() => this.handleLocationButtonClick(favorite.city, favorite.state, favorite.country)}
-                                        disabled={this.isCountryDataFetched(favorite.country)}
-                                    >
-                                        Show Data
-                                    </button>
-                                    {/* Add a button next to each location */}
+                                    {/* Check if favorite entry contains valid data */}
+                                    {favorite.city && favorite.state && favorite.country && (
+                                        <>
+                                            {favorite.city}, {favorite.state}, {favorite.country}
+                                            {/** Render buttons only if there are favorited countries */}
+                                            {favorites.length > 0 && (
+                                                <>
+                                                    <button
+                                                        onClick={() => this.handleLocationButtonClick(favorite.city, favorite.state, favorite.country)}
+                                                        disabled={this.isCountryDataFetched(favorite.country)}
+                                                    >
+                                                        Show Data
+                                                    </button>
+                                                    <button onClick={() => this.deleteFavoriteLocation(index)}>Delete</button>
+                                                </>
+                                            )}
+                                        </>
+                                    )}
                                 </li>
                             ))}
                         </ul>

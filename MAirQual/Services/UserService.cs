@@ -1,5 +1,7 @@
 ﻿using MAirQual.Data;
 using MAirQual.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -37,7 +39,9 @@ namespace MAirQual.Services
 
         public User GetUserByEmail(string email)
         {
-            return _context.Users.SingleOrDefault(u => u.Email == email);
+            return _context.Users
+                .Include(u => u.FavoriteLocations) // Include FavoriteLocations
+                .SingleOrDefault(u => u.Email == email);
         }
 
         // Method to get favorite locations for a user
@@ -62,6 +66,22 @@ namespace MAirQual.Services
 
                 // Add the new favorite location to the user's collection
                 user.FavoriteLocations.Add(favoriteLocation);
+
+                // Save changes to the database
+                _context.SaveChanges();
+            }
+        }
+
+        public void DeleteFavoriteLocation(int userId, int index)
+        {
+            var user = _context.Users.Find(userId);
+            Console.WriteLine("Prije petlje");
+            if (user != null && index >= 0 && index < user.FavoriteLocations.Count)
+            {
+                Console.WriteLine("Unutra sam");
+                // Remove the favorite location at the specified index
+                var favoriteLocationToRemove = user.FavoriteLocations.ElementAt(index);
+                user.FavoriteLocations.Remove(favoriteLocationToRemove);
 
                 // Save changes to the database
                 _context.SaveChanges();
