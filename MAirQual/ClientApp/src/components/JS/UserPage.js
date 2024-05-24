@@ -6,7 +6,7 @@ import Window_icon from '../../Images/window.png';
 import Mask_icon from '../../Images/Mask.png';
 import Window_crossed from '../../Images/window_crossed.png';
 import Air_purifier from '../../Images/air_purifier.png';
-import '../CSS/UserPage.css'; // Import CSS file for styling
+import '../CSS/UserPage.css'; 
 
 export class UserPage extends Component {
     constructor(props) {
