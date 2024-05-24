@@ -25,7 +25,9 @@ export class Home extends Component {
             fetchingStateData: false,
             requestCount: 0, 
             timeRemaining: 60,
-            errorMessage:''
+            errorMessage: '',
+            isLoggedIn: false,
+            favourites: []
         };
         this.resetCounterTimer = null;
         this.timerInterval = null;
@@ -34,7 +36,12 @@ export class Home extends Component {
     componentDidMount() {
         this.fetchLocation();
         this.startTimer();
+        this.setState({
+            isLoggedIn: !!sessionStorage.getItem('authToken'),
+            favourites: JSON.parse(localStorage.getItem('favourites')) || []
+        });
     }
+
 
     componentWillUnmount() {
         // Clear timers when the component unmounts
@@ -221,8 +228,31 @@ export class Home extends Component {
         return { formattedDate, formattedTime };
     };
 
+    handleAddToFavourites = async () => {
+        const { cityData } = this.state;
+        if (cityData) {
+            const newFavourite = {
+                location: `${cityData.data.city}, ${cityData.data.state}, ${cityData.data.country}`
+            };
+
+            try {
+                const authToken = sessionStorage.getItem('authToken');
+                await axios.post('https://localhost:44484/Favorites', { location: newFavourite.location }, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                // Optionally, you can update the state to reflect the addition of the new favorite
+            } catch (error) {
+                console.error('Error adding favorite location:', error);
+                // Handle error if needed
+            }
+        }
+    }
+
+
     render() {
-        const { cityData, countryData, selectedCountry, stateData, selectedState, timeRemaining, errorMessage } = this.state;
+        const { cityData, countryData, selectedCountry, stateData, selectedState, timeRemaining, errorMessage, isLoggedIn, favourites } = this.state;
 
         const getAQIColor = (aqi) => {
             if (aqi <= 50) return 'good';
@@ -368,6 +398,13 @@ export class Home extends Component {
                             <h3>Recommendations:</h3>
                             {generateRecommendations(getAQIColor(cityData.data.current.pollution.aqius))}
                         </div>
+                        {isLoggedIn && (
+                            <div className="favourites">
+                                <button onClick={this.handleAddToFavourites} className="favourites-button">
+                                    Add to favourites
+                                </button>
+                            </div>
+                        )}
                     </div>
                 )}
                 <form onSubmit={this.handleFormSubmit}>

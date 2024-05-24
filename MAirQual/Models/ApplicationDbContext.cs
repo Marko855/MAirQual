@@ -11,5 +11,7 @@ namespace MAirQual.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<FavoriteLocation> FavoriteLocations { get; set; } // Add this DbSet for FavoriteLocation entity
+
     }
 }

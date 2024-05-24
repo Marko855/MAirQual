@@ -11,7 +11,8 @@ const context = [
     "/CityNameFetch",
     "/Registration",
     "/Login",
-    "/UserPage"
+    "/UserPage",
+    "/Favorites"
     // Add additional API paths here
 ];
 

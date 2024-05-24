@@ -39,5 +39,33 @@ namespace MAirQual.Services
         {
             return _context.Users.SingleOrDefault(u => u.Email == email);
         }
+
+        // Method to get favorite locations for a user
+        public List<string> GetFavorites(int userId)
+        {
+            // Retrieve all favorite locations for the given userId
+            var favoriteLocations = _context.FavoriteLocations
+                .Where(fl => fl.UserId == userId)
+                .Select(fl => fl.Location)
+                .ToList();
+
+            return favoriteLocations;
+        }
+
+        public void AddFavoriteLocation(int userId, string location)
+        {
+            var user = _context.Users.Find(userId);
+            if (user != null)
+            {
+                // Create a new FavoriteLocation object
+                var favoriteLocation = new FavoriteLocation { Location = location };
+
+                // Add the new favorite location to the user's collection
+                user.FavoriteLocations.Add(favoriteLocation);
+
+                // Save changes to the database
+                _context.SaveChanges();
+            }
+        }
     }
 }
