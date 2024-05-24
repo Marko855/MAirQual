@@ -1,42 +1,27 @@
-﻿.user-page {
+﻿.user-page-container {
+    max-width: 600px;
+    margin: 0 auto;
     padding: 20px;
-    max-width: 800px;
-    margin: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
 }
 
-.profile-section {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+.user-info {
+    margin-top: 20px;
 }
 
-    .profile-section img {
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        margin-right: 20px;
+    .user-info h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
     }
 
-.profile-details {
-    flex: 1;
-}
-
-.dashboard-section, .settings-section {
-    margin-bottom: 20px;
-}
-
-h1, h2 {
-    margin-bottom: 10px;
-}
-
-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-}
-
-    button:hover {
-        background-color: #0056b3;
+    .user-info p {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
     }
+
+        .user-info p strong {
+            font-weight: bold;
+            margin-right: 5px;
+        }
