@@ -1,9 +1,16 @@
 ﻿<Properties StartupConfiguration="{29690A72-88B3-4BE3-831F-FB2F847D57AC}|Default">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.MAirQual PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workbench ActiveDocument="MAirQual/ClientApp/src/components/JS/UserPage.js">
+    <Files>
+      <File FileName="MAirQual/ClientApp/src/components/JS/UserPage.js" Line="21" Column="31" />
+      <File FileName="MAirQual/ClientApp/src/AppRoutes.js" Line="34" Column="6" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
@@ -12,12 +19,17 @@
               <Node name="ClientApp">
                 <Node name="src">
                   <Node name="components">
-                    <Node name="CSS">
-                      <Node name="UserPage.css" selected="True" />
+                    <Node name="CSS" expanded="True" />
+                    <Node name="JS">
+                      <Node name="UserPage.js" selected="True" />
                     </Node>
                   </Node>
                 </Node>
               </Node>
+              <Node name="Controllers" expanded="True" />
+              <Node name="DTO" expanded="True" />
+              <Node name="Migrations" expanded="True" />
+              <Node name="Models" expanded="True" />
               <Node name="Services" expanded="True" />
             </Node>
           </Node>
@@ -28,7 +40,4 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MultiItemStartupConfigurations />
 </Properties>

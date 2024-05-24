@@ -23,7 +23,7 @@ export class Home extends Component {
             selectedCountry: '',
             selectedState: '',
             fetchingStateData: false,
-            requestCount: 0, 
+            requestCount: 0,
             timeRemaining: 60,
             errorMessage: '',
             isLoggedIn: false,
@@ -142,9 +142,10 @@ export class Home extends Component {
             console.error('Error fetching country data:', error);
             if (error.response && error.response.status === 500) {
                 this.setState({
-                    errorMessage: "Error fetching country data. Wrong country name provided or country doesn't exist.", loading: false });
+                    errorMessage: "Error fetching country data. Wrong country name provided or country doesn't exist.", loading: false
+                });
             } else {
-                this.setState({loading: false });
+                this.setState({ loading: false });
             }
         }
     };
@@ -181,7 +182,7 @@ export class Home extends Component {
             loading: true,
             selectedCountry: country,
             countryData: null,
-            stateData:null,
+            stateData: null,
         }, () => {
             this.fetchCountryData(country);
         });
