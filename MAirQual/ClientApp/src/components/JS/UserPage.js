@@ -74,7 +74,7 @@ export class UserPage extends Component {
                     favoritesData.push({ city, state, country });
                 }
                 this.setState({ favorites: favoritesData, loadingFavorites: false });
-                
+
             } else {
                 console.error('Error: Unexpected format of favorite locations data');
                 this.setState({ loadingFavorites: false });
@@ -232,8 +232,8 @@ export class UserPage extends Component {
         return { formattedDate, formattedTime };
     };
 
-    isCountryDataFetched = (country) => {
-        return this.state.cityData_favorites.some(cityData => cityData.data.country === country);
+    isCityDataFetched = (city) => {
+        return this.state.cityData_favorites.some(cityData => cityData.data.city === city);
     };
 
     render() {
@@ -273,7 +273,7 @@ export class UserPage extends Component {
                                                 <>
                                                     <button
                                                         onClick={() => this.handleLocationButtonClick(favorite.city, favorite.state, favorite.country)}
-                                                        disabled={this.isCountryDataFetched(favorite.country)}
+                                                        disabled={this.isCityDataFetched(favorite.city)}
                                                     >
                                                         Show Data
                                                     </button>
