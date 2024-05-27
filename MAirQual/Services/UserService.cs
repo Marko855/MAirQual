@@ -10,6 +10,7 @@ namespace MAirQual.Services
     public class UserService
     {
         private readonly ApplicationDbContext _context;
+        
 
         public UserService(ApplicationDbContext context)
         {
@@ -47,7 +48,7 @@ namespace MAirQual.Services
 
             if (user == null)
             {
-                throw new Exception("Invalid email or password.");
+                return null;
             }
 
             return user;
@@ -57,7 +58,7 @@ namespace MAirQual.Services
         public User GetUserByEmail(string email)
         {
             return _context.Users
-                .Include(u => u.FavoriteLocations) // Include FavoriteLocations
+                .Include(u => u.FavoriteLocations)
                 .SingleOrDefault(u => u.Email == email);
         }
 
@@ -95,10 +96,8 @@ namespace MAirQual.Services
         public void DeleteFavoriteLocation(int userId, int index)
         {
             var user = _context.Users.Find(userId);
-            Console.WriteLine("Prije petlje");
             if (user != null && index >= 0 && index < user.FavoriteLocations.Count)
             {
-                Console.WriteLine("Unutra sam");
                 // Remove the favorite location at the specified index
                 var favoriteLocationToRemove = user.FavoriteLocations.ElementAt(index);
                 user.FavoriteLocations.Remove(favoriteLocationToRemove);
@@ -107,5 +106,57 @@ namespace MAirQual.Services
                 _context.SaveChanges();
             }
         }
+
+        public async Task<AuthResponse> UpdateUser(User user, UserUpdateModel model)
+        {
+            try
+            {
+                // Verify the current password
+                if (user.Password != model.CurrentPassword)
+                {
+                    // If the current password doesn't match, return false
+                    return new AuthResponse { Success = false, Message = "Current password is incorrect" };
+                }
+
+                // Check if the new email is different from the current email
+                if (!string.IsNullOrEmpty(model.NewEmail) && model.NewEmail != user.Email)
+                {
+                    // Check if another user already exists with the new email
+                    if (UserExists(model.NewEmail))
+                    {
+                        // If another user with the new email already exists, return a custom message
+                        return new AuthResponse { Success = false, Message = "User with the same email already exists" };
+                    }
+
+                    // Update the user's email
+                    user.Email = model.NewEmail;
+                }
+
+                // Update the user's information based on the provided model
+                if (!string.IsNullOrEmpty(model.NewUsername))
+                {
+                    user.Username = model.NewUsername;
+                }
+
+                if (!string.IsNullOrEmpty(model.NewPassword))
+                {
+                    user.Password = model.NewPassword;
+                }
+
+                // Save changes to the database
+                await _context.SaveChangesAsync();
+
+                // Return true to indicate a successful update
+                return new AuthResponse { Success = true, Message = "User profile updated successfully" };
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                Console.WriteLine($"Error updating user: {ex.Message}");
+                return new AuthResponse { Success = false, Message = "An error occurred while updating user profile" };
+            }
+        }
+
+
     }
 }

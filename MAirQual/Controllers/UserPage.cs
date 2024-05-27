@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MAirQual.Models;
 using MAirQual.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace MAirQual.Controllers
 {
@@ -42,8 +44,47 @@ namespace MAirQual.Controllers
             {
                 user.Username,
                 user.Email,
-                OtherClaims = claims // Include other non-null claims in the response
+                OtherClaims = claims
             });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateUserProfile(UserUpdateModel model)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var claims = User.Claims;
+            var email = claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
+
+            if (email == null)
+            {
+                return Unauthorized();
+            }
+
+            var user = _userService.GetUserByEmail(email);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Update user profile using model data
+            var updateResult = await _userService.UpdateUser(user, model);
+
+            if (updateResult.Success)
+            {
+                return Ok(updateResult.Message);
+            }
+            else
+            {
+                return StatusCode(500, updateResult.Message);
+            }
+        }
+
+
     }
 }

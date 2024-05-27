@@ -186,6 +186,8 @@ export class Home extends Component {
             selectedCountry: country,
             countryData: null,
             stateData: null,
+            showSuccessMessage: false,
+            showErrorMessage: false,
         }, () => {
             this.fetchCountryData(country);
         });
@@ -194,15 +196,24 @@ export class Home extends Component {
     handleStateButtonClick = async (state) => {
         const { selectedCountry } = this.state;
 
-        this.setState({ selectedState: state }, async () => {
+        this.setState({
+            selectedState: state,
+            showSuccessMessage: false,
+            showErrorMessage: false
+        }, async () => {
             await this.fetchStateData(selectedCountry, state);
         });
     };
+
 
     handleCityButtonClick = async (city, state, country) => {
         if (!this.canMakeRequest()) {
             return;
         }
+        this.setState({
+            showSuccessMessage: false,
+            showErrorMessage: false
+        });
         this.increaseRequestCounter();
         try {
             const response = await axios.get('https://localhost:44484/CityNameFetch/city', {
@@ -224,6 +235,7 @@ export class Home extends Component {
             this.setState({ loading: false });
         }
     };
+
 
     formatTimestamp = (timestamp) => {
         const date = new Date(timestamp);
@@ -249,7 +261,7 @@ export class Home extends Component {
                 this.setState({ showSuccessMessage: true, showErrorMessage: false, errorText: '' });
             } catch (error) {
                 if (error.response && error.response.status === 400) {
-                    this.setState({ showErrorMessage: true, showSuccessMessage: false, errorText: 'Favorite location already exists' });
+                    this.setState({ showErrorMessage: true, showSuccessMessage: false, errorText: 'Location already exists in favorites!' });
                 } else {
                     console.error('Error adding favorite location:', error);
                     this.setState({ showErrorMessage: true, showSuccessMessage: false, errorText: 'An error occurred while adding the favorite location' });
@@ -419,7 +431,7 @@ export class Home extends Component {
                                 <button onClick={this.handleAddToFavourites} className="favourites-button">
                                     Add to favourites
                                 </button>
-                                {showSuccessMessage && <div className="success-message">Favorite location added successfully!</div>}
+                                {showSuccessMessage && <div className="success-message">Location successfully added to favorites!</div>}
                                 {showErrorMessage && <div className="error-message">{errorText}</div>}
 
                             </div>

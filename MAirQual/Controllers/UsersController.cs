@@ -15,7 +15,7 @@ public class UsersController : ControllerBase
     [HttpGet]
     public IActionResult GetUsers()
     {
-        var users = _userService.GetAllUsers(); // Assuming GetUsers() returns the list of users
+        var users = _userService.GetAllUsers(); 
         return Ok(users);
     }
 }

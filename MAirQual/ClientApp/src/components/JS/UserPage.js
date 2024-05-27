@@ -7,6 +7,7 @@ import Mask_icon from '../../Images/Mask.png';
 import Window_crossed from '../../Images/window_crossed.png';
 import Air_purifier from '../../Images/air_purifier.png';
 import '../CSS/UserPage.css';
+import Modal from '../JS/Modal.js';
 
 export class UserPage extends Component {
     constructor(props) {
@@ -18,7 +19,18 @@ export class UserPage extends Component {
             loadingFavorites: true,
             favorites: [],
             cityData_favorites: [],
-            loadingCityData: false
+            loadingCityData: false,
+            showModal: false,
+            modalContent: null,
+            editField: '',
+            editValue: '',
+            newUsername: '',
+            confirmNewUsername: '',
+            newEmail: '',
+            confirmNewEmail: '',
+            currentPassword: '',
+            newPassword: '',
+            confirmNewPassword: ''
         };
     }
 
@@ -75,7 +87,6 @@ export class UserPage extends Component {
             }
         } catch (error) {
             console.error('Error fetching favorite locations:', error);
-            alert("Too much request at the time. Wait a second!");
             this.setState({ loadingFavorites: false });
         }
     }
@@ -94,6 +105,7 @@ export class UserPage extends Component {
             }));
         } catch (error) {
             console.error('Error fetching city data:', error);
+            alert("Too much request at the time. Wait a second!");
             this.setState({ loadingCityData: false });
         }
     };
@@ -232,8 +244,106 @@ export class UserPage extends Component {
         return this.state.cityData_favorites.some(cityData => cityData.city === city);
     };
 
+    openModal = (field) => {
+        const value = this.state.userData ? this.state.userData[field] : '';
+        this.setState({ showModal: true, editField: field, editValue: value });
+    };
+
+    closeModal = () => {
+        this.setState({ showModal: false, editField: '', editValue: '' });
+    };
+
+    handleInputChange = (e) => {
+        this.setState({ editValue: e.target.value });
+    };
+
+    handleFormSubmit = async (e) => {
+        e.preventDefault();
+        const { editField, userData, newUsername, confirmNewUsername, newEmail, confirmNewEmail, currentPassword, newPassword, confirmNewPassword } = this.state;
+
+        if (
+            (editField === 'username' && (newUsername === '' || newUsername !== confirmNewUsername)) ||
+            (editField === 'email' && (newEmail === '' || newEmail !== confirmNewEmail)) ||
+            (editField === 'password' && (newPassword === '' || newPassword !== confirmNewPassword))
+        ) {
+            this.setState({
+                message: { type: 'fail-message', text: 'Invalid input or confirmations do not match!' }
+            });
+            return;
+        }
+
+        try {
+            const authToken = sessionStorage.getItem('authToken');
+            const requestData = {};
+
+            if (editField === 'username' && newUsername !== '') {
+                requestData.NewUsername = newUsername;
+            }
+
+            if (editField === 'email' && newEmail !== '') {
+                requestData.NewEmail = newEmail;
+            }
+
+            if (editField === 'password' && newPassword !== '') {
+                requestData.NewPassword = newPassword;
+            }
+
+            requestData.CurrentPassword = currentPassword;
+
+            const response = await axios.post('https://localhost:44484/UserPage', requestData, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            });
+
+            if (response.status === 200) {
+                const updatedUserData = {
+                    ...userData,
+                    ...(requestData.NewUsername && { username: requestData.NewUsername }),
+                    ...(requestData.NewEmail && { email: requestData.NewEmail })
+                };
+
+                this.setState({
+                    userData: updatedUserData,
+                    message: { type: 'success-message', text: 'Update successful!' }
+                });
+
+                setTimeout(function () {
+                    sessionStorage.removeItem('authToken');
+                    window.location.href = '/login';
+                    this.setState({
+                        showModal: false,
+                        editField: '',
+                        editValue: '',
+                        newUsername: '',
+                        confirmNewUsername: '',
+                        newEmail: '',
+                        confirmNewEmail: '',
+                        currentPassword: '',
+                        newPassword: '',
+                        confirmNewPassword: '',
+                    });
+                }, 2000);
+
+            } else {
+                this.setState({
+                    message: { type: 'fail-message', text: 'Update failed. Please try again.' }
+                });
+
+                console.error('Error updating user data:', response);
+            }
+        } catch (error) {
+            this.setState({
+                message: { type: 'fail-message', text: 'Update failed. Please try again.' }
+            });
+
+            console.error('Error updating user data:', error);
+        }
+    };
+
     render() {
-        const { userData, loadingUserData, favorites, loadingFavorites, cityData_favorites, loadingCityData } = this.state;
+        const { userData, favorites, loadingFavorites, cityData_favorites, loadingCityData,
+            showModal, editField, newUsername, confirmNewUsername, newEmail, confirmNewEmail, currentPassword, newPassword, confirmNewPassword, message } = this.state;
 
         return (
             <div className="user-page-container">
@@ -245,25 +355,24 @@ export class UserPage extends Component {
                                 <label>Username:</label>
                                 <p>{userData.username}</p>
                             </div>
-                            <button>Edit</button>
+                            <button onClick={() => this.openModal('username')}>Edit</button>
                         </div>
                         <div className="info-item">
                             <div>
                                 <label>Email:</label>
                                 <p>{userData.email}</p>
                             </div>
-                            <button>Edit</button>
+                            <button onClick={() => this.openModal('email')}>Edit</button>
                         </div>
                         <div className="info-item">
                             <div>
                                 <label>Password:</label>
-                                <p>********</p> {/* Displayed as asterisks for security */}
+                                <p>********</p>
                             </div>
-                            <button>Edit</button>
+                            <button onClick={() => this.openModal('password')}>Edit</button>
                         </div>
                     </div>
                 )}
-
 
                 {loadingFavorites && <div>Loading favorite locations...</div>}
                 {!loadingFavorites && (
@@ -346,6 +455,38 @@ export class UserPage extends Component {
                         </div>
                     ))
                 )}
+
+                <Modal
+                    show={showModal}
+                    handleClose={this.closeModal}
+                    message={message}
+                >
+                    <h2>Edit {editField.charAt(0).toUpperCase() + editField.slice(1)}</h2>
+                    <form onSubmit={this.handleFormSubmit}>
+                        {editField === 'username' && (
+                            <>
+                                <input type="text" value={newUsername} onChange={(e) => this.setState({ newUsername: e.target.value })} placeholder="New username" />
+                                <input type="text" value={confirmNewUsername} onChange={(e) => this.setState({ confirmNewUsername: e.target.value })} placeholder="Confirm new username" />
+                                <input type="password" value={currentPassword} onChange={(e) => this.setState({ currentPassword: e.target.value })} placeholder="Confirm with password" />
+                            </>
+                        )}
+                        {editField === 'email' && (
+                            <>
+                                <input type="email" value={newEmail} onChange={(e) => this.setState({ newEmail: e.target.value })} placeholder="New email" />
+                                <input type="email" value={confirmNewEmail} onChange={(e) => this.setState({ confirmNewEmail: e.target.value })} placeholder="Confirm new email" />
+                                <input type="password" value={currentPassword} onChange={(e) => this.setState({ currentPassword: e.target.value })} placeholder="Confirm with password" />
+                            </>
+                        )}
+                        {editField === 'password' && (
+                            <>
+                                <input type="password" value={currentPassword} onChange={(e) => this.setState({ currentPassword: e.target.value })} placeholder="Current password" />
+                                <input type="password" value={newPassword} onChange={(e) => this.setState({ newPassword: e.target.value })} placeholder="New password" />
+                                <input type="password" value={confirmNewPassword} onChange={(e) => this.setState({ confirmNewPassword: e.target.value })} placeholder="Confirm new password" />
+                            </>
+                        )}
+                        <button type="submit">Save</button>
+                    </form>
+                </Modal>
             </div>
         );
     }
