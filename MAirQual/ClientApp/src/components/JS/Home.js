@@ -251,6 +251,13 @@ export class Home extends Component {
         }
     }
 
+    capitalize(input) {
+        if (!input) return input;
+        input = input.toLowerCase();
+        return input.charAt(0).toUpperCase() + input.slice(1);
+    }
+
+
 
     render() {
         const { cityData, countryData, selectedCountry, stateData, selectedState, timeRemaining, errorMessage, isLoggedIn, favourites } = this.state;
@@ -419,7 +426,7 @@ export class Home extends Component {
                 <div className="states-and-cities-container">
                     {countryData && countryData.data && countryData.data.length > 0 && (
                         <div className="states-container">
-                            <h2>States in {selectedCountry}:</h2>
+                            <h2>States in {this.capitalize(selectedCountry)}:</h2>
                             <ul>
                                 {countryData.data.map((state, index) => (
                                     <li key={index}>

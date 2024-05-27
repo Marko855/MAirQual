@@ -6,7 +6,7 @@ import Window_icon from '../../Images/window.png';
 import Mask_icon from '../../Images/Mask.png';
 import Window_crossed from '../../Images/window_crossed.png';
 import Air_purifier from '../../Images/air_purifier.png';
-import '../CSS/UserPage.css'; 
+import '../CSS/UserPage.css';
 
 export class UserPage extends Component {
     constructor(props) {
@@ -16,9 +16,9 @@ export class UserPage extends Component {
             userData: null,
             loadingUserData: true,
             loadingFavorites: true,
-            favorites: [], // New state to hold favorites from the server
-            cityData_favorites: [], // State to hold data for favorite cities
-            loadingCityData: false // State to manage loading status of city data
+            favorites: [],
+            cityData_favorites: [],
+            loadingCityData: false
         };
     }
 
@@ -28,7 +28,6 @@ export class UserPage extends Component {
     }
 
     async componentDidUpdate(prevProps) {
-        // Check if the authentication status has changed
         if (this.props.isAuthenticated !== prevProps.isAuthenticated) {
             await this.fetchUserData();
         }
@@ -36,7 +35,6 @@ export class UserPage extends Component {
 
     fetchUserData = async () => {
         try {
-            // Fetch user data from the server using Axios
             const authToken = sessionStorage.getItem('authToken');
             const response = await axios.get('https://localhost:44484/UserPage', {
                 headers: {
@@ -48,14 +46,12 @@ export class UserPage extends Component {
             this.setState({ userData, loadingUserData: false });
         } catch (error) {
             console.error('Error fetching user data:', error);
-            // Handle error
             this.setState({ loadingUserData: false });
         }
     }
 
     fetchFavoriteLocations = async () => {
         try {
-            // Fetch favorite locations from the server using Axios
             const authToken = sessionStorage.getItem('authToken');
             const response = await axios.get('https://localhost:44484/Favorites', {
                 headers: {
@@ -63,15 +59,13 @@ export class UserPage extends Component {
                 }
             });
 
-            // Check if the response data is in the expected format
             if (typeof response.data === 'string') {
                 const favoritesArray = response.data.split(', ');
                 const favoritesData = [];
 
-                // Group the values into chunks of three (city, state, country)
                 for (let i = 0; i < favoritesArray.length; i += 3) {
                     const [city, state, country] = favoritesArray.slice(i, i + 3);
-                    favoritesData.push({ city, state, country,deleted: false });
+                    favoritesData.push({ city, state, country, deleted: false });
                 }
                 this.setState({ favorites: favoritesData, loadingFavorites: false });
 
@@ -81,7 +75,7 @@ export class UserPage extends Component {
             }
         } catch (error) {
             console.error('Error fetching favorite locations:', error);
-            // Handle error
+            alert("Too much request at the time. Wait a second!");
             this.setState({ loadingFavorites: false });
         }
     }
@@ -95,7 +89,7 @@ export class UserPage extends Component {
 
             console.log('Response data:', response.data);
             this.setState(prevState => ({
-                cityData_favorites: [...prevState.cityData_favorites, response.data],
+                cityData_favorites: [...prevState.cityData_favorites, { ...response.data, city, state, country }],
                 loadingCityData: false
             }));
         } catch (error) {
@@ -108,8 +102,15 @@ export class UserPage extends Component {
         try {
             // Remove the location from the frontend state
             const updatedFavorites = [...this.state.favorites];
-            updatedFavorites[index].deleted = true; // Mark as deleted
-            this.setState({ favorites: updatedFavorites });
+            const favoriteToDelete = updatedFavorites[index];
+            updatedFavorites.splice(index, 1);
+
+            // Also remove corresponding city data
+            const updatedCityData = this.state.cityData_favorites.filter(cityData =>
+                cityData.city !== favoriteToDelete.city || cityData.state !== favoriteToDelete.state || cityData.country !== favoriteToDelete.country
+            );
+
+            this.setState({ favorites: updatedFavorites, cityData_favorites: updatedCityData });
 
             // Make an HTTP DELETE request to the server to remove the location from the database
             const authToken = sessionStorage.getItem('authToken');
@@ -124,8 +125,6 @@ export class UserPage extends Component {
             // Handle error
         }
     };
-
-
 
     getAQIColor = (aqi) => {
         if (aqi <= 50) return 'good';
@@ -216,6 +215,7 @@ export class UserPage extends Component {
                 return "";
         }
     };
+
     getWeatherIcon = (icon) => {
         try {
             return require(`../../Images/${icon}.png`);
@@ -233,7 +233,7 @@ export class UserPage extends Component {
     };
 
     isCityDataFetched = (city) => {
-        return this.state.cityData_favorites.some(cityData => cityData.data.city === city);
+        return this.state.cityData_favorites.some(cityData => cityData.city === city);
     };
 
     render() {
@@ -256,7 +256,7 @@ export class UserPage extends Component {
                 {loadingFavorites && <div>Loading favorite locations...</div>}
                 {!loadingFavorites && (
                     <div className="favourites-container">
-                        {favorites.filter(favorite => !favorite.deleted).some(favorite => favorite.city && favorite.state && favorite.country) ? (
+                        {favorites.some(favorite => !favorite.deleted && favorite.city && favorite.state && favorite.country) ? (
                             <h2>Favorite Locations:</h2>
                         ) : (
                             <h2>Favorite Locations: None</h2>
@@ -292,9 +292,8 @@ export class UserPage extends Component {
                 {loadingCityData && <div>Loading city data...</div>}
                 {!loadingCityData && cityData_favorites.length > 0 && (
                     cityData_favorites.map((cityData, index) => (
-                        !favorites[index].deleted && (
                         <div key={index} className="location-info">
-                            <h2 className="city">Location: {cityData.data.city}, {cityData.data.state}, {cityData.data.country}</h2>
+                            <h2 className="city">Location: {cityData.city}, {cityData.state}, {cityData.country}</h2>
                             <div className="info">
                                 <div className="pollution">
                                     <h3>Pollution Data:</h3>
@@ -332,8 +331,7 @@ export class UserPage extends Component {
                                 <h3>Recommendations:</h3>
                                 {this.generateRecommendations(this.getAQIColor(cityData.data.current.pollution.aqius))}
                             </div>
-                            </div>
-                        )
+                        </div>
                     ))
                 )}
             </div>

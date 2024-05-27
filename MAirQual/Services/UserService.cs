@@ -16,6 +16,14 @@ namespace MAirQual.Services
             _context = context;
         }
 
+        public class AuthResponse
+        {
+            public bool Success { get; set; }
+            public string Message { get; set; }
+            public User User { get; set; }
+        }
+
+
         public bool UserExists(string email)
         {
             return _context.Users.Any(u => u.Email == email);
@@ -34,8 +42,17 @@ namespace MAirQual.Services
 
         public User Authenticate(string email, string password)
         {
-            return _context.Users.SingleOrDefault(u => u.Email == email && u.Password == password);
+
+            var user = _context.Users.SingleOrDefault(u => u.Email == email && u.Password == password);
+
+            if (user == null)
+            {
+                throw new Exception("Invalid email or password.");
+            }
+
+            return user;
         }
+
 
         public User GetUserByEmail(string email)
         {

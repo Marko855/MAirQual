@@ -25,17 +25,15 @@ export class NavMenu extends Component {
     }
 
     handleLogout() {
-        sessionStorage.removeItem('authToken'); // Remove the authentication token from sessionStorage
+        sessionStorage.removeItem('authToken'); 
         this.setState({ isLoggedIn: false });
-        window.location.href = '/'; // Redirect to home page after logout
+        window.location.href = '/login'; 
     }
 
     componentDidMount() {
-        // Check if authentication token exists in sessionStorage
         const authToken = sessionStorage.getItem('authToken');
         const isLoggedIn = !!authToken;
 
-        // Update the state accordingly
         this.setState({ isLoggedIn });
     }
 

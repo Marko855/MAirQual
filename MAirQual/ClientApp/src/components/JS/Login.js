@@ -64,7 +64,7 @@ export class Login extends Component {
 
                     setTimeout(function () {
                         window.location.href = '/News';
-                    }, 2000); 
+                    }, 2000);
                 } else {
 
                     this.setState({
