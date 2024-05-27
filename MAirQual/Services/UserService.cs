@@ -72,7 +72,10 @@ namespace MAirQual.Services
 
             return favoriteLocations;
         }
-
+        public bool FavoriteLocationExists(int userId, string location)
+        {
+            return _context.FavoriteLocations.Any(fl => fl.UserId == userId && fl.Location == location);
+        }
         public void AddFavoriteLocation(int userId, string location)
         {
             var user = _context.Users.Find(userId);

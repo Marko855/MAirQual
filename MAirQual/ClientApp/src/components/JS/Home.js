@@ -27,7 +27,9 @@ export class Home extends Component {
             timeRemaining: 60,
             errorMessage: '',
             isLoggedIn: false,
-            favourites: []
+            favourites: [],
+            showSuccessMessage: false,
+            showErrorMessage: false,
         };
         this.resetCounterTimer = null;
         this.timerInterval = null;
@@ -151,12 +153,12 @@ export class Home extends Component {
     };
 
     fetchStateData = async (country, state) => {
-        if (!this.canMakeRequest()) {
-            alert("Too much request at the time.Wait a second!");
-            return;
-        }
-        this.increaseRequestCounter();
         try {
+            if (!this.canMakeRequest()) {
+                throw new Error("Too many requests at the moment. Please try again later.");
+            }
+            this.increaseRequestCounter();
+
             const response = await axios.get('https://localhost:44484/StateFetch/state', {
                 params: {
                     country,
@@ -167,9 +169,10 @@ export class Home extends Component {
             this.setState({ stateData: response.data });
         } catch (error) {
             console.error('Error fetching state data:', error);
-            alert("Too much request at the time.Wait a second!");
+            alert(error.message);
         }
     };
+
 
     handleInputChange = event => {
         this.setState({ country: event.target.value });
@@ -243,13 +246,18 @@ export class Home extends Component {
                         'Authorization': `Bearer ${authToken}`
                     }
                 });
-                // Optionally, you can update the state to reflect the addition of the new favorite
+                this.setState({ showSuccessMessage: true, showErrorMessage: false, errorText: '' });
             } catch (error) {
-                console.error('Error adding favorite location:', error);
-                // Handle error if needed
+                if (error.response && error.response.status === 400) {
+                    this.setState({ showErrorMessage: true, showSuccessMessage: false, errorText: 'Favorite location already exists' });
+                } else {
+                    console.error('Error adding favorite location:', error);
+                    this.setState({ showErrorMessage: true, showSuccessMessage: false, errorText: 'An error occurred while adding the favorite location' });
+                }
             }
         }
     }
+
 
     capitalize(input) {
         if (!input) return input;
@@ -260,7 +268,7 @@ export class Home extends Component {
 
 
     render() {
-        const { cityData, countryData, selectedCountry, stateData, selectedState, timeRemaining, errorMessage, isLoggedIn, favourites } = this.state;
+        const { cityData, countryData, selectedCountry, stateData, selectedState, timeRemaining, errorMessage, isLoggedIn, favourites, showErrorMessage, showSuccessMessage, errorText } = this.state;
 
         const getAQIColor = (aqi) => {
             if (aqi <= 50) return 'good';
@@ -411,8 +419,12 @@ export class Home extends Component {
                                 <button onClick={this.handleAddToFavourites} className="favourites-button">
                                     Add to favourites
                                 </button>
+                                {showSuccessMessage && <div className="success-message">Favorite location added successfully!</div>}
+                                {showErrorMessage && <div className="error-message">{errorText}</div>}
+
                             </div>
                         )}
+
                     </div>
                 )}
                 <form onSubmit={this.handleFormSubmit}>
@@ -420,7 +432,7 @@ export class Home extends Component {
                         Enter Country:
                         <input type="text" value={this.state.country} onChange={this.handleInputChange} placeholder="Enter Country..." />
                     </label>
-                    <button type="submit">Fetch Data</button>
+                    <button type="submit" className="form-button">Fetch Data</button>
                 </form>
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
                 <div className="states-and-cities-container">

@@ -1,8 +1,12 @@
-﻿/* news.css */
-.news-container {
+﻿.news-container {
     max-width: 120%;
     margin: 0 auto;
     padding: 20px;
+}
+
+.title{
+    text-align:center;
+    margin-bottom:50px;
 }
 
 .page-container {

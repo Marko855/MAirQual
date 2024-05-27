@@ -67,8 +67,16 @@ namespace MAirQual.Controllers
             {
                 return NotFound("User not found");
             }
+
             Console.WriteLine(user.Id);
-            // Save the favorite location for the user in the database or any storage mechanism
+
+            // Check if the favorite location already exists
+            if (_userService.FavoriteLocationExists(user.Id, request.Location))
+            {
+                return BadRequest(new { message = "Favorite location already exists" });
+            }
+
+            // Save the favorite location for the user in the database
             _userService.AddFavoriteLocation(user.Id, request.Location);
 
             return Ok(new { message = "Favorite location added successfully" });

@@ -15,7 +15,6 @@ export class News_fifth extends Component {
                         <h1 className="news-title">What is cloud seeding and did it cause Dubai flooding?</h1>
                         <div className="news-image-container">
                             <img className="news-image" src={hospital} alt="Hospital image" />
-                            <p></p>
                             <p>Share this article:</p>
                             <div className="share-icons">
                                 <a href="https://www.whatsapp.com" className="icon-link"><FontAwesomeIcon icon={faWhatsapp} /></a>

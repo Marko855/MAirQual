@@ -100,19 +100,16 @@ export class UserPage extends Component {
 
     deleteFavoriteLocation = async (index) => {
         try {
-            // Remove the location from the frontend state
             const updatedFavorites = [...this.state.favorites];
             const favoriteToDelete = updatedFavorites[index];
             updatedFavorites.splice(index, 1);
 
-            // Also remove corresponding city data
             const updatedCityData = this.state.cityData_favorites.filter(cityData =>
                 cityData.city !== favoriteToDelete.city || cityData.state !== favoriteToDelete.state || cityData.country !== favoriteToDelete.country
             );
 
             this.setState({ favorites: updatedFavorites, cityData_favorites: updatedCityData });
 
-            // Make an HTTP DELETE request to the server to remove the location from the database
             const authToken = sessionStorage.getItem('authToken');
             await axios.delete(`https://localhost:44484/Favorites/${index}`, {
                 headers: {
@@ -122,7 +119,6 @@ export class UserPage extends Component {
             console.log('Location deleted successfully from the database.');
         } catch (error) {
             console.error('Error deleting location:', error);
-            // Handle error
         }
     };
 
@@ -242,17 +238,33 @@ export class UserPage extends Component {
         return (
             <div className="user-page-container">
                 {userData && (
-                    <h3>Welcome back, {userData.username}!</h3>
-                )}
-                {loadingUserData && <div>Loading user data...</div>}
-                {userData && (
                     <div className="user-info">
                         <h2>Personal Data:</h2>
-                        <p><strong>Email:</strong> {userData.email}</p>
-                        {/* Render other personal data */}
+                        <div className="info-item">
+                            <div>
+                                <label>Username:</label>
+                                <p>{userData.username}</p>
+                            </div>
+                            <button>Edit</button>
+                        </div>
+                        <div className="info-item">
+                            <div>
+                                <label>Email:</label>
+                                <p>{userData.email}</p>
+                            </div>
+                            <button>Edit</button>
+                        </div>
+                        <div className="info-item">
+                            <div>
+                                <label>Password:</label>
+                                <p>********</p> {/* Displayed as asterisks for security */}
+                            </div>
+                            <button>Edit</button>
+                        </div>
                     </div>
                 )}
-                {/* Render favorite locations from the server */}
+
+
                 {loadingFavorites && <div>Loading favorite locations...</div>}
                 {!loadingFavorites && (
                     <div className="favourites-container">
@@ -274,10 +286,10 @@ export class UserPage extends Component {
                                                     <button
                                                         onClick={() => this.handleLocationButtonClick(favorite.city, favorite.state, favorite.country)}
                                                         disabled={this.isCityDataFetched(favorite.city)}
-                                                    >
+                                                        className="show-data_button">
                                                         Show Data
                                                     </button>
-                                                    <button onClick={() => this.deleteFavoriteLocation(index)}>Delete</button>
+                                                    <button onClick={() => this.deleteFavoriteLocation(index)} className="delete-data_button" >Delete</button>
                                                 </>
                                             )}
                                         </>

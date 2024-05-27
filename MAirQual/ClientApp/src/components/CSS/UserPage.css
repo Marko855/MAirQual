@@ -7,9 +7,22 @@
     background-color: lightblue;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
+.user-page-container {
+    max-width: 1400px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+
+.favourites-container {
+    max-width: 1400px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
 }
 
 h2 {
@@ -77,40 +90,6 @@ h3 {
     color: black;
     background-color: #7e0023;
 }
-
-form {
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
-    form label {
-        display: block;
-        margin-bottom: 10px;
-    }
-
-    form input[type="text"] {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    form button {
-        background-color: #3498db;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-        form button:hover {
-            background-color: #2980b9;
-        }
 
 .states-and-cities-container {
     display: flex;
@@ -246,3 +225,114 @@ form {
 ul {
     list-style-type: none;
 }
+
+.location-info {
+    max-width: 1400px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+}
+
+
+.show-data_button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 2px solid #5ce83c;
+    border-radius: 5px;
+    background-color: #5ce83c;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+    .show-data_button:hover {
+        background-color: white;
+        color: black;
+    }
+
+.delete-data_button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 2px solid #e83c3c;
+    border-radius: 5px;
+    background-color: #e83c3c;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+    .delete-data_button:hover {
+        background-color: white;
+        color: black;
+    }
+
+.user-info {
+    max-width: 1400px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+}
+
+    .user-info h2 {
+        margin-bottom: 15px;
+    }
+
+.info-item {
+    display: flex; /* Use flexbox */
+    align-items: center; /* Align items vertically */
+    justify-content: space-between; /* Push edit button to end of line */
+    margin-bottom: 20px;
+}
+
+    .info-item div {
+        display: flex; /* Use flexbox */
+        align-items: center; /* Align items vertically */
+    }
+
+    .info-item label {
+        font-weight: bold;
+        margin-right: 10px; /* Add spacing between label and user data */
+    }
+
+    .info-item p {
+        margin: 0;
+        padding: 5px;
+    }
+
+    .info-item button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        border: 2px solid #3498db;
+        border-radius: 5px;
+        background-color: #3498db;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        margin-bottom: 20px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+        .info-item button:hover {
+            background-color: white;
+            color: #3498db;
+        }

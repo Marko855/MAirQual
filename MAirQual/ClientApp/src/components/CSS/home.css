@@ -9,7 +9,7 @@
 
 .container {
     max-width: 1200px;
-    margin: 0 auto;
+    margin-bottom: 20px;
 }
 
 h2 {
@@ -84,6 +84,7 @@ form {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     padding: 20px;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
     form label {
@@ -99,18 +100,26 @@ form {
         border-radius: 5px;
     }
 
-    form button {
-        background-color: #3498db;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
+.form-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    margin-bottom: 20px;
+}
+
+    .form-button:hover {
+        background-color: white;
+        color: #3498db;
     }
 
-        form button:hover {
-            background-color: #2980b9;
-        }
 
 .states-and-cities-container {
     display: flex;
@@ -122,11 +131,10 @@ form {
     width: 48%;
 }
 
-.states-container ul, .cities-container ul {
+    .states-container ul, .cities-container ul {
         list-style-type: none;
         padding: 0;
-
-}
+    }
 
 .state-button, .city-button {
     background-color: #ecf0f1;
@@ -233,15 +241,55 @@ form {
     flex: 1;
 }
 
-.weather-icon{
-    width:300px;
+.weather-icon {
+    width: 300px;
 }
 
-.weather-icon img {
-    width: 100px;
-    height: 100px;
-    margin-left: 1px;
-    margin-right: 10px;
+    .weather-icon img {
+        width: 100px;
+        height: 100px;
+        margin-left: 1px;
+        margin-right: 10px;
+    }
+
+.favourites-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    margin-bottom: 20px;
 }
 
+    .favourites-button:hover {
+        background-color: white;
+        color: #3498db;
+    }
 
+.success-message {
+    color: #28a745;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}

@@ -12,7 +12,7 @@ export class News extends Component {
         return (
             <div className="page-container">
                 <div className="news-container">
-                    <h1>News</h1>
+                    <h1 className="title">News</h1>
 
                     <div className="article">
                         <img src={air_pollution} alt="Air pollution image" />
