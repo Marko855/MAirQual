@@ -1,14 +1,11 @@
-﻿/* modal.css */
-
-/* Modal container */
-.modal {
+﻿.modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-    display: none; /* Hide modal by default */
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: none; 
     justify-content: center;
     align-items: center;
 }
@@ -17,7 +14,6 @@
         display: flex;
     }
 
-/* Modal content */
 .modal-content {
     background-color: white;
     padding: 20px;
@@ -31,7 +27,6 @@
     align-items: center;
 }
 
-/* Close button */
 .close-button {
     position: absolute;
     top: 10px;
@@ -41,10 +36,9 @@
     color: #888;
 }
 
-/* Edit button */
 .modal-content button {
-    margin-top: 10px; /* Add margin to the top of each button */
-    margin-bottom: 10px; /* Add margin to the bottom of each button */
+    margin-top: 10px; 
+    margin-bottom: 10px; 
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -65,14 +59,12 @@
     margin-top: 20px;
 }
 
-/* modal.css */
 
-/* Input fields */
 .modal-content input {
     width: 100%;
     padding: 10px;
-    margin-top: 10px; /* Add margin to the top of each input field */
-    margin-bottom: 10px; /* Add margin to the bottom of each input field */
+    margin-top: 10px; 
+    margin-bottom: 10px; 
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;

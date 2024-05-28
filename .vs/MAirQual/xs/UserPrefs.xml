@@ -1,32 +1,38 @@
 ﻿<Properties StartupConfiguration="{29690A72-88B3-4BE3-831F-FB2F847D57AC}|Default">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="MAirQual/ClientApp/src/components/JS/UserPage.js">
+    <Files>
+      <File FileName="MAirQual/ClientApp/src/components/JS/Modal.js" Line="15" Column="1" />
+      <File FileName="MAirQual/ClientApp/src/components/JS/UserPage.js" Line="408" Column="30" />
+      <File FileName="MAirQual/ClientApp/src/components/CSS/modal.css" Line="62" Column="1" />
+      <File FileName="MAirQual/ClientApp/src/components/CSS/UserPage.css" Line="124" Column="6" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MAirQual">
-            <Node name="MAirQual">
+            <Node name="MAirQual" expanded="True">
               <Node name="ClientApp" expanded="True">
                 <Node name="src" expanded="True">
                   <Node name="components" expanded="True">
                     <Node name="CSS" expanded="True" />
-                    <Node name="JS" expanded="True">
-                      <Node name="UserPage.js" selected="True" />
-                    </Node>
+                    <Node name="JS" expanded="True" />
                   </Node>
                 </Node>
               </Node>
               <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True" />
+              <Node name="Services" expanded="True" />
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.MAirQual PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
 </Properties>

@@ -284,20 +284,20 @@ ul {
     }
 
 .info-item {
-    display: flex; /* Use flexbox */
-    align-items: center; /* Align items vertically */
-    justify-content: space-between; /* Push edit button to end of line */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 20px;
 }
 
     .info-item div {
-        display: flex; /* Use flexbox */
-        align-items: center; /* Align items vertically */
+        display: flex;
+        align-items: center;
     }
 
     .info-item label {
         font-weight: bold;
-        margin-right: 10px; /* Add spacing between label and user data */
+        margin-right: 10px;
     }
 
     .info-item p {
@@ -326,3 +326,21 @@ ul {
             background-color: white;
             color: #3498db;
         }
+
+.password-requirements ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.password-requirements li {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.password-requirements img {
+    margin-right: 5px;
+    width: 20px;
+    height: auto;
+}

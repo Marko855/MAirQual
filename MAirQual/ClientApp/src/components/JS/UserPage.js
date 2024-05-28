@@ -8,6 +8,8 @@ import Window_crossed from '../../Images/window_crossed.png';
 import Air_purifier from '../../Images/air_purifier.png';
 import '../CSS/UserPage.css';
 import Modal from '../JS/Modal.js';
+import tickIcon from '../../Images/tick.png';
+import xIcon from '../../Images/x.png';
 
 export class UserPage extends Component {
     constructor(props) {
@@ -30,7 +32,14 @@ export class UserPage extends Component {
             confirmNewEmail: '',
             currentPassword: '',
             newPassword: '',
-            confirmNewPassword: ''
+            confirmNewPassword: '',
+            passwordRequirements: {
+                minLength: false,
+                containsLetters: false,
+                containsNumbers: false,
+                containsSymbols: false,
+                passwordsMatch: true
+            }
         };
     }
 
@@ -254,17 +263,59 @@ export class UserPage extends Component {
     };
 
     handleInputChange = (e) => {
-        this.setState({ editValue: e.target.value });
+        const { name, value } = e.target;
+        this.setState({ [name]: value }, () => {
+            if (name === 'newPassword' || name === 'confirmNewPassword') {
+                this.validatePassword();
+            }
+        });
     };
+
+    validatePassword = () => {
+        const { newPassword, confirmNewPassword } = this.state;
+        const passwordRequirements = {
+            minLength: newPassword.length >= 8,
+            containsLetters: /[a-zA-Z]/.test(newPassword),
+            containsNumbers: /\d/.test(newPassword),
+            containsSymbols: /[^a-zA-Z\d\s]/.test(newPassword),
+            passwordsMatch: newPassword === confirmNewPassword
+        };
+        this.setState({ passwordRequirements });
+    };
+
 
     handleFormSubmit = async (e) => {
         e.preventDefault();
-        const { editField, userData, newUsername, confirmNewUsername, newEmail, confirmNewEmail, currentPassword, newPassword, confirmNewPassword } = this.state;
+        const {
+            editField,
+            userData,
+            newUsername,
+            confirmNewUsername,
+            newEmail,
+            confirmNewEmail,
+            currentPassword,
+            newPassword,
+            confirmNewPassword,
+            passwordRequirements
+        } = this.state;
+
+        if (editField === 'password' && newPassword === currentPassword) {
+            this.setState({
+                message: { type: 'fail-message', text: 'Invalid input or confirmations do not match!' }
+            });
+            return;
+        }
 
         if (
             (editField === 'username' && (newUsername === '' || newUsername !== confirmNewUsername)) ||
             (editField === 'email' && (newEmail === '' || newEmail !== confirmNewEmail)) ||
-            (editField === 'password' && (newPassword === '' || newPassword !== confirmNewPassword))
+            (editField === 'password' && (
+                !passwordRequirements.minLength ||
+                !passwordRequirements.containsLetters ||
+                !passwordRequirements.containsNumbers ||
+                !passwordRequirements.containsSymbols ||
+                !passwordRequirements.passwordsMatch
+            ))
         ) {
             this.setState({
                 message: { type: 'fail-message', text: 'Invalid input or confirmations do not match!' }
@@ -308,7 +359,7 @@ export class UserPage extends Component {
                     message: { type: 'success-message', text: 'Update successful!' }
                 });
 
-                setTimeout(function () {
+                setTimeout(() => {
                     sessionStorage.removeItem('authToken');
                     window.location.href = '/login';
                     this.setState({
@@ -341,9 +392,11 @@ export class UserPage extends Component {
         }
     };
 
+
     render() {
         const { userData, favorites, loadingFavorites, cityData_favorites, loadingCityData,
-            showModal, editField, newUsername, confirmNewUsername, newEmail, confirmNewEmail, currentPassword, newPassword, confirmNewPassword, message } = this.state;
+            showModal, editField, newUsername, confirmNewUsername, newEmail, confirmNewEmail, currentPassword,
+            newPassword, confirmNewPassword, message, passwordRequirements } = this.state;
 
         return (
             <div className="user-page-container">
@@ -385,11 +438,9 @@ export class UserPage extends Component {
                         <ul>
                             {favorites.map((favorite, index) => (
                                 <li key={index}>
-                                    {/* Check if favorite entry contains valid data */}
                                     {favorite.city && favorite.state && favorite.country && !favorite.deleted && (
                                         <>
                                             {favorite.city}, {favorite.state}, {favorite.country}
-                                            {/** Render buttons only if there are favorited countries */}
                                             {favorites.length > 0 && (
                                                 <>
                                                     <button
@@ -409,7 +460,6 @@ export class UserPage extends Component {
                     </div>
                 )}
 
-                {/* Render city data for each favorite location */}
                 {loadingCityData && <div>Loading city data...</div>}
                 {!loadingCityData && cityData_favorites.length > 0 && (
                     cityData_favorites.map((cityData, index) => (
@@ -479,11 +529,74 @@ export class UserPage extends Component {
                         )}
                         {editField === 'password' && (
                             <>
-                                <input type="password" value={currentPassword} onChange={(e) => this.setState({ currentPassword: e.target.value })} placeholder="Current password" />
-                                <input type="password" value={newPassword} onChange={(e) => this.setState({ newPassword: e.target.value })} placeholder="New password" />
-                                <input type="password" value={confirmNewPassword} onChange={(e) => this.setState({ confirmNewPassword: e.target.value })} placeholder="Confirm new password" />
+                                <input
+                                    type="password"
+                                    name="currentPassword"
+                                    value={currentPassword}
+                                    onChange={this.handleInputChange}
+                                    placeholder="Current password"
+                                />
+                                <input
+                                    type="password"
+                                    name="newPassword"
+                                    value={newPassword}
+                                    onChange={this.handleInputChange}
+                                    placeholder="New password"
+                                />
+                                <input
+                                    type="password"
+                                    name="confirmNewPassword"
+                                    value={confirmNewPassword}
+                                    onChange={this.handleInputChange}
+                                    placeholder="Confirm new password"
+                                />
+                                <div className="password-requirements">
+                                    <ul>
+                                        <li>
+                                            {passwordRequirements.minLength ? (
+                                                <img src={tickIcon} alt="Tick" />
+                                            ) : (
+                                                <img src={xIcon} alt="X" />
+                                            )}
+                                            At least 8 characters
+                                        </li>
+                                        <li>
+                                            {passwordRequirements.containsLetters ? (
+                                                <img src={tickIcon} alt="Tick" />
+                                            ) : (
+                                                <img src={xIcon} alt="X" />
+                                            )}
+                                            Contains letters
+                                        </li>
+                                        <li>
+                                            {passwordRequirements.containsNumbers ? (
+                                                <img src={tickIcon} alt="Tick" />
+                                            ) : (
+                                                <img src={xIcon} alt="X" />
+                                            )}
+                                            Contains numbers
+                                        </li>
+                                        <li>
+                                            {passwordRequirements.containsSymbols ? (
+                                                <img src={tickIcon} alt="Tick" />
+                                            ) : (
+                                                <img src={xIcon} alt="X" />
+                                            )}
+                                            Contains symbols
+                                        </li>
+                                        <li>
+                                            {passwordRequirements.passwordsMatch ? (
+                                                <img src={tickIcon} alt="Tick" />
+                                            ) : (
+                                                <img src={xIcon} alt="X" />
+                                            )}
+                                            Passwords match
+                                        </li>
+                                    </ul>
+                                </div>
                             </>
                         )}
+
                         <button type="submit">Save</button>
                     </form>
                 </Modal>
