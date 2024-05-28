@@ -1,6 +1,8 @@
 ﻿.navbar {
-    background-color: #fff; /* Change background color to white */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    background-color: #fff; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size:1.3rem;
+    height:auto;
 }
 
 .navbar-nav {
@@ -12,14 +14,17 @@
 }
 
 .navbar-brand {
+    display: flex;
+    align-items: center; 
     white-space: normal;
     text-align: left;
     word-break: break-all;
+    margin-right:50px;
 }
 
 .logo-img {
-    width: 100px; /* Adjust size as needed */
-    height: auto; /* Maintain aspect ratio */
+    width: 100px; 
+    height: auto; 
 }
 
 html {

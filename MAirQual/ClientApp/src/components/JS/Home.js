@@ -46,7 +46,6 @@ export class Home extends Component {
 
 
     componentWillUnmount() {
-        // Clear timers when the component unmounts
         if (this.resetCounterTimer) {
             clearTimeout(this.resetCounterTimer);
         }
@@ -64,7 +63,7 @@ export class Home extends Component {
         if (this.resetCounterTimer) {
             clearTimeout(this.resetCounterTimer);
         }
-        this.resetCounterTimer = setTimeout(this.resetRequestCounter, 60000); // Reset counter every 60 seconds
+        this.resetCounterTimer = setTimeout(this.resetRequestCounter, 60000);
     }
 
     canMakeRequest = () => {
@@ -77,7 +76,7 @@ export class Home extends Component {
                 if (prevState.timeRemaining > 0) {
                     return { timeRemaining: prevState.timeRemaining - 1 };
                 } else {
-                    return { timeRemaining: 60 }; // Reset timer to 60 seconds
+                    return { timeRemaining: 60 }; 
                 }
             });
         }, 1000);
@@ -169,7 +168,7 @@ export class Home extends Component {
             this.setState({ stateData: response.data });
         } catch (error) {
             console.error('Error fetching state data:', error);
-            alert(error.message);
+            alert("Too much request at the time.Wait a second!");
         }
     };
 
@@ -239,8 +238,8 @@ export class Home extends Component {
 
     formatTimestamp = (timestamp) => {
         const date = new Date(timestamp);
-        const formattedDate = date.toLocaleDateString(); // Format the date
-        const formattedTime = date.toLocaleTimeString(); // Format the time
+        const formattedDate = date.toLocaleDateString(); 
+        const formattedTime = date.toLocaleTimeString(); 
         return { formattedDate, formattedTime };
     };
 
