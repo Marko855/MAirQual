@@ -148,10 +148,19 @@ form {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
-    .state-button:hover, .city-button:hover {
-        background-color: #bdc3c7;
+    .state-button.selected,
+    .city-button.selected {
+        background-color: #007bff;
+        color: #fff;
+        border: 1px solid #007bff;
+        outline: none;
     }
+
+        .state-button.selected:hover,
+        .city-button.selected:hover {
+            background-color: #0056b3;
+            border: 1px solid #0056b3;
+        }
 
 .timer {
     background-color: #fff;

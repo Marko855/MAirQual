@@ -30,9 +30,13 @@ export class Home extends Component {
             favourites: [],
             showSuccessMessage: false,
             showErrorMessage: false,
+            city_selected: false,
+            selectedStateButton: '',
+            selectedCityButton: '',
         };
         this.resetCounterTimer = null;
         this.timerInterval = null;
+        this.statesContainerRef = React.createRef();
     }
 
     componentDidMount() {
@@ -164,8 +168,13 @@ export class Home extends Component {
                     state
                 }
             });
+            window.scrollTo({
+                top: this.statesContainerRef.current.offsetTop,
+                behavior: 'smooth'
+            });
 
-            this.setState({ stateData: response.data });
+            this.setState({
+                stateData: response.data});
         } catch (error) {
             console.error('Error fetching state data:', error);
             alert("Too much request at the time.Wait a second!");
@@ -197,6 +206,7 @@ export class Home extends Component {
 
         this.setState({
             selectedState: state,
+            selectedStateButton: state,
             showSuccessMessage: false,
             showErrorMessage: false
         }, async () => {
@@ -211,7 +221,9 @@ export class Home extends Component {
         }
         this.setState({
             showSuccessMessage: false,
-            showErrorMessage: false
+            showErrorMessage: false,
+            city_selected: true,
+            selectedCityButton: city
         });
         this.increaseRequestCounter();
         try {
@@ -226,7 +238,10 @@ export class Home extends Component {
             console.log('Response data:', response.data);
 
             this.setState({ cityData: response.data }, () => {
-                console.log('Updated cityData:', this.state.cityData);
+                window.scrollTo({ top: 0, behavior: 'smooth' }); 
+                this.setState({
+                    loading: false,
+                });
             });
         } catch (error) {
             console.error('Error fetching city data:', error);
@@ -279,7 +294,7 @@ export class Home extends Component {
 
 
     render() {
-        const { cityData, countryData, selectedCountry, stateData, selectedState, timeRemaining, errorMessage, isLoggedIn, favourites, showErrorMessage, showSuccessMessage, errorText } = this.state;
+        const { cityData, countryData, selectedCountry, stateData, selectedState, timeRemaining, errorMessage, isLoggedIn, favourites, showErrorMessage, showSuccessMessage, errorText, city_selected } = this.state;
 
         const getAQIColor = (aqi) => {
             if (aqi <= 50) return 'good';
@@ -384,7 +399,7 @@ export class Home extends Component {
             <div className="container">
                 {cityData && (
                     <div className="location-info">
-                        <h2 className="city">Your location: {cityData.data.city}, {cityData.data.state}, {cityData.data.country}</h2>
+                        <h2 className="city">{this.state.city_selected ? 'Selected Location:' : 'Your Location:'} {cityData.data.city}, {cityData.data.state}, {cityData.data.country}</h2>
 
                         <div className="info">
                             <div className="pollution">
@@ -448,13 +463,13 @@ export class Home extends Component {
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
                 <div className="states-and-cities-container">
                     {countryData && countryData.data && countryData.data.length > 0 && (
-                        <div className="states-container">
+                        <div className="states-container" ref={this.statesContainerRef}>
                             <h2>States in {this.capitalize(selectedCountry)}:</h2>
                             <ul>
                                 {countryData.data.map((state, index) => (
                                     <li key={index}>
                                         <button
-                                            className="state-button"
+                                            className={`state-button ${selectedState === state.state ? 'selected' : ''}`}
                                             onClick={() => this.handleStateButtonClick(state.state)}
                                         >
                                             {state.state}
@@ -466,12 +481,12 @@ export class Home extends Component {
                     )}
                     {stateData && (
                         <div className="cities-container">
-                            <h2>Cities:</h2>
+                            <h2>Cities in {selectedState}:</h2>
                             <ul className="city-list">
                                 {stateData.data.map((city, index) => (
                                     <li key={index}>
                                         <button
-                                            className="city-button"
+                                            className={`city-button ${city_selected && cityData && cityData.data.city === city.city ? 'selected' : ''}`}
                                             onClick={() => this.handleCityButtonClick(city.city, selectedState, selectedCountry)}
                                         >
                                             {city.city}
