@@ -114,7 +114,7 @@ export class UserPage extends Component {
             }));
         } catch (error) {
             console.error('Error fetching city data:', error);
-            alert("Too much request at the time. Wait a second!");
+            alert("Too many request at the time. Wait a second!");
             this.setState({ loadingCityData: false });
         }
     };

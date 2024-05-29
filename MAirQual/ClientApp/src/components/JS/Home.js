@@ -80,7 +80,7 @@ export class Home extends Component {
                 if (prevState.timeRemaining > 0) {
                     return { timeRemaining: prevState.timeRemaining - 1 };
                 } else {
-                    return { timeRemaining: 60 }; 
+                    return { timeRemaining: 60 };
                 }
             });
         }, 1000);
@@ -108,7 +108,7 @@ export class Home extends Component {
 
     fetchCityCordData = async () => {
         if (!this.canMakeRequest()) {
-            alert("Too much request at the time.Wait a second!");
+            alert("Too many request at the time.Wait a second!");
             return;
         }
         this.increaseRequestCounter();
@@ -124,14 +124,14 @@ export class Home extends Component {
             this.setState({ cityData: response.data, loading: false });
         } catch (error) {
             console.error('Error fetching city data:', error);
-            alert("Too much request at the time.Wait a second!");
+            alert("Too many request at the time.Wait a second!");
             this.setState({ loading: false });
         }
     };
 
     fetchCountryData = async (country) => {
         if (!this.canMakeRequest()) {
-            alert("Too much request at the time.Wait a second!");
+            alert("Too many request at the time.Wait a second!");
             return;
         }
         this.increaseRequestCounter();
@@ -158,7 +158,8 @@ export class Home extends Component {
     fetchStateData = async (country, state) => {
         try {
             if (!this.canMakeRequest()) {
-                throw new Error("Too many requests at the moment. Please try again later.");
+                alert("Too many request at the time.Wait a second!");
+                return;
             }
             this.increaseRequestCounter();
 
@@ -174,10 +175,13 @@ export class Home extends Component {
             });
 
             this.setState({
-                stateData: response.data});
+                selectedState: state,
+                stateData: response.data,
+                selectedStateButton: state,
+            });
         } catch (error) {
             console.error('Error fetching state data:', error);
-            alert("Too much request at the time.Wait a second!");
+            alert("Too many request at the time.Wait a second!");
         }
     };
 
@@ -205,8 +209,6 @@ export class Home extends Component {
         const { selectedCountry } = this.state;
 
         this.setState({
-            selectedState: state,
-            selectedStateButton: state,
             showSuccessMessage: false,
             showErrorMessage: false
         }, async () => {
@@ -216,17 +218,19 @@ export class Home extends Component {
 
 
     handleCityButtonClick = async (city, state, country) => {
-        if (!this.canMakeRequest()) {
-            return;
-        }
-        this.setState({
-            showSuccessMessage: false,
-            showErrorMessage: false,
-            city_selected: true,
-            selectedCityButton: city
-        });
-        this.increaseRequestCounter();
         try {
+            if (!this.canMakeRequest()) {
+                alert("Too many request at the time.Wait a second!");
+                return;
+            }
+            this.setState({
+                showSuccessMessage: false,
+                showErrorMessage: false,
+                city_selected: true,
+                selectedCityButton: city
+            });
+
+            this.increaseRequestCounter();
             const response = await axios.get('https://localhost:44484/CityNameFetch/city', {
                 params: {
                     city,
@@ -238,14 +242,14 @@ export class Home extends Component {
             console.log('Response data:', response.data);
 
             this.setState({ cityData: response.data }, () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' }); 
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 this.setState({
                     loading: false,
                 });
             });
         } catch (error) {
             console.error('Error fetching city data:', error);
-            alert("Too much request at the time.Wait a second!");
+            alert("Too many request at the time.Wait a second!");
             this.setState({ loading: false });
         }
     };
@@ -253,8 +257,8 @@ export class Home extends Component {
 
     formatTimestamp = (timestamp) => {
         const date = new Date(timestamp);
-        const formattedDate = date.toLocaleDateString(); 
-        const formattedTime = date.toLocaleTimeString(); 
+        const formattedDate = date.toLocaleDateString();
+        const formattedTime = date.toLocaleTimeString();
         return { formattedDate, formattedTime };
     };
 
@@ -304,6 +308,72 @@ export class Home extends Component {
             if (aqi <= 300) return 'very-unhealthy';
             return 'hazardous';
         };
+
+        const generatePollutantReport = (pollutionData) => {
+            switch (pollutionData) {
+                case 'p2':
+                    return (
+                        <div className="pollutant">
+                            <h3>Main pollutant: PM2.5</h3>
+                            <p>PM2.5 (Particulate Matter 2.5): PM2.5 refers to tiny particles or droplets in the air that are 2.5 micrometers or less in width.
+                                These particles can be harmful when inhaled and are associated with respiratory and cardiovascular problems.
+                                Common sources include vehicle emissions, industrial processes, and wildfires.
+                            </p>
+                        </div>
+                    );
+
+                case 'p1':
+                    return (
+                        <div className="pollutant">
+                            <h3>Main pollutant: PM10</h3>
+                            <p>PM10 (Particulate Matter 10): PM10 refers to slightly larger particles in the air than PM2.5, up to 10 micrometers in diameter.
+                                Like PM2.5, PM10 can cause health issues when inhaled, particularly affecting the respiratory system.
+                                Sources of PM10 include road dust, construction activities, and agricultural operations.
+                            </p>
+                        </div>
+                    );
+                case 'o3':
+                    return (
+                        <div className="pollutant">
+                            <h3>Main pollutant: Ozone</h3>
+                            <p>Ozone (O3): Ozone in the Earth's atmosphere can be both beneficial and harmful.
+                                In the upper atmosphere, ozone protects us from the sun's ultraviolet radiation. However, at ground level, ozone is a pollutant that
+                                can irritate the respiratory system, leading to breathing difficulties, chest pain, and throat irritation.
+                                Ground-level ozone forms when pollutants emitted by cars, power plants, and other sources react with sunlight.</p>
+                        </div>
+                    );
+                case 'n2':
+                    return (
+                        <div className="pollutant">
+                            <h3>Main pollutant: Nitrogen Dioxide</h3>
+                            <p>Nitrogen Dioxide (NO2): Nitrogen dioxide is a reddish-brown gas that can irritate the airways in the human respiratory system.
+                                It can cause coughing, wheezing, and shortness of breath, particularly in people with asthma or other respiratory conditions.
+                                NO2 primarily comes from vehicle emissions, industrial processes, and combustion of fossil fuels.</p>
+                        </div>
+                    );
+                case 's2':
+                    return (
+                        <div className="pollutant">
+                            <h3>Main pollutant: Sulphur Dioxide</h3>
+                            <p>Sulphur Dioxide (SO2): Sulfur dioxide is a pungent gas with a strong odor.
+                                Exposure to SO2 can irritate the respiratory system and exacerbate existing respiratory conditions such as asthma and bronchitis.
+                                Major sources of sulfur dioxide include coal-fired power plants, industrial facilities, and volcanic eruptions.</p>
+                        </div>
+                    );
+                case 'co':
+                    return (
+                        <div className="pollutant">
+                            <h3>Main pollutant: Carbon Monoxide</h3>
+                            <p>Carbon Monoxide (CO): Carbon monoxide is a colorless, odorless gas that is highly toxic to humans and animals when inhaled in high concentrations.
+                                CO interferes with the body's ability to transport oxygen in the bloodstream, leading to symptoms such as headaches, dizziness, nausea, and, in severe cases, death.
+                                Common sources of carbon monoxide include vehicle exhaust, gas appliances, and tobacco smoke.</p>
+                        </div>
+                    );
+                default:
+                    return "";
+            }
+        };
+
 
         const generateRecommendations = (aqiCategory) => {
             switch (aqiCategory) {
@@ -434,6 +504,9 @@ export class Home extends Component {
                                     )}
                                 </div>
                             </div>
+                        </div>
+                        <div className="main-pollutant">
+                            {cityData && generatePollutantReport(cityData.data.current.pollution.mainus)}
                         </div>
 
                         <div className="recommendations">

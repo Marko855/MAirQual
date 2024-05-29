@@ -23,6 +23,8 @@ export class About extends Component {
                         <li>Weather Data</li>
                         <li>Health Recommendations</li>
                         <li>User-Friendly Interface</li>
+                        <li>News</li>
+                        <li>Shop</li>
                         <li>Account Management</li>
                     </ul>
                 </section>
