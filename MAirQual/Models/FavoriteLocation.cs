@@ -12,7 +12,6 @@ namespace MAirQual.Models
 
         public int UserId { get; set; }
 
-        // Add any other properties as needed
     }
 }
 

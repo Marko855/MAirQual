@@ -6,4 +6,3 @@ namespace MAirQual.DTO
         public string? Location { get; set; }
     }
 }
-

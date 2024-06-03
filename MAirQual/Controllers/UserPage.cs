@@ -72,7 +72,6 @@ namespace MAirQual.Controllers
                 return NotFound("User not found");
             }
 
-            // Update user profile using model data
             var updateResult = await _userService.UpdateUser(user, model);
 
             if (updateResult.Success)

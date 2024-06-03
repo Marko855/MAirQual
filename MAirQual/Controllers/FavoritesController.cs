@@ -41,12 +41,9 @@ namespace MAirQual.Controllers
                 return NotFound("User not found");
             }
 
-            // Retrieve user's favorite locations from the database or any storage mechanism
             var favorites = _userService.GetFavorites(user.Id);
 
-            // Join favorite locations into a comma-separated string
             var favoritesString = string.Join(", ", favorites);
-            Console.WriteLine(favoritesString);
             return Ok(favoritesString);
         }
 
@@ -55,7 +52,6 @@ namespace MAirQual.Controllers
         {
             var claims = User.Claims;
             var email = claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
-            Console.WriteLine(email);
             if (email == null)
             {
                 return Unauthorized();
@@ -70,13 +66,11 @@ namespace MAirQual.Controllers
 
             Console.WriteLine(user.Id);
 
-            // Check if the favorite location already exists
             if (_userService.FavoriteLocationExists(user.Id, request.Location))
             {
                 return BadRequest(new { message = "Favorite location already exists" });
             }
 
-            // Save the favorite location for the user in the database
             _userService.AddFavoriteLocation(user.Id, request.Location);
 
             return Ok(new { message = "Favorite location added successfully" });
@@ -100,7 +94,6 @@ namespace MAirQual.Controllers
                 return NotFound("User not found");
             }
 
-            // Remove the favorite location from the database or any storage mechanism
             _userService.DeleteFavoriteLocation(user.Id, index);
 
             return Ok(new { message = "Favorite location deleted successfully" });

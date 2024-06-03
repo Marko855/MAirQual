@@ -63,7 +63,7 @@ export class Login extends Component {
                     sessionStorage.setItem('authToken', response.data.token);
 
                     setTimeout(function () {
-                        window.location.href = '/News';
+                        window.location.href = '/';
                     }, 2000);
                 } else {
 

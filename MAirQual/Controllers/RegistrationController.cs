@@ -21,29 +21,24 @@ namespace MAirQual.Controllers
         {
             try
             {
-                // Check if the provided email already exists
                 if (_userService.UserExists(request.Email))
                 {
                     return Conflict("User already exists");
                 }
 
-                // Create a new user object
                 var newUser = new User
                 {
                     Username = request.Username,
                     Email = request.Email,
-                    Password = request.Password // Note: Password hashing should be used in a real-world application
+                    Password = request.Password 
                 };
 
-                // Register the new user
                 _userService.RegisterUser(newUser);
 
-                // Return success message
                 return Ok("Registration successful");
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
                 return StatusCode(500, "An error occurred while registering the user.");
             }
         }

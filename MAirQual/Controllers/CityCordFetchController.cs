@@ -21,11 +21,9 @@ namespace MAirQual.Controllers
         {
             try
             {
-                // Your AirVisual API key
                 string apiKey = "e91fc4aa-cb69-4841-a5d9-d82d321df5ec";
                 var httpClient = _httpClientFactory.CreateClient();
 
-                // Make GET request to AirVisual API
                 HttpResponseMessage response = await httpClient.GetAsync($"http://api.airvisual.com/v2/nearest_city?lat={latitude}&lon={longitude}&key={apiKey}");
 
                 response.EnsureSuccessStatusCode();

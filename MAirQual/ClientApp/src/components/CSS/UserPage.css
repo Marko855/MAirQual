@@ -123,6 +123,31 @@ h3 {
         background-color: #bdc3c7;
     }
 
+.pollutant {
+    margin-bottom: 10px;
+}
+
+    .pollutant h3 {
+        margin-bottom: 10px;
+    }
+
+    .pollutant p {
+        font-size: 20px;
+        line-height: 1.5;
+        font-family: 'Arial', sans-serif;
+    }
+
+
+.main-pollutant {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+
 .recommendations h3 {
     margin-bottom: 10px;
 }

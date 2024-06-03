@@ -97,12 +97,18 @@ export class Home extends Component {
                 },
                 error => {
                     console.error('Error getting location:', error);
+                    alert("Error fetching geolocation!")
                     this.setState({ latitude: null, longitude: null, loading: false });
                 }
             );
         } else {
             console.error('Geolocation is not supported by this browser.');
-            this.setState({ latitude: null, longitude: null, loading: false });
+            alert("Error fetching geolocation!")
+            this.setState({
+                latitude: null,
+                longitude: null,
+                loading: false,
+            });
         }
     };
 
@@ -460,7 +466,6 @@ export class Home extends Component {
         };
 
         const getWeatherIcon = (icon) => {
-            // Define the path to your weather icons
             const weatherIconPath = require(`../../Images/${icon}.png`);
             return weatherIconPath;
         };
@@ -516,7 +521,7 @@ export class Home extends Component {
                         {isLoggedIn && (
                             <div className="favourites">
                                 <button onClick={this.handleAddToFavourites} className="favourites-button">
-                                    Add to favourites
+                                    Add to favorites
                                 </button>
                                 {showSuccessMessage && <div className="success-message">Location successfully added to favorites!</div>}
                                 {showErrorMessage && <div className="error-message">{errorText}</div>}

@@ -7,9 +7,9 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%; /* Adjust this width as needed */
-    max-width: 1500px; /* Adjust this max-width as needed */
-    margin: 0 auto; /* Centering the container horizontally */
+    width: 100%; 
+    max-width: 1500px; 
+    margin: 0 auto; 
     overflow: hidden;
     box-sizing: border-box;
 }

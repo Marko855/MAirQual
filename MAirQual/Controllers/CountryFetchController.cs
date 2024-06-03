@@ -21,39 +21,29 @@ namespace MAirQual.Controllers
         {
             try
             {
-                // Your AirVisual API key
                 string apiKey = "e91fc4aa-cb69-4841-a5d9-d82d321df5ec";
 
-                // Make GET request to AirVisual API for country data
                 HttpResponseMessage response = await _httpClient.GetAsync($"http://api.airvisual.com/v2/states?country={country}&key={apiKey}");
 
                 if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
                 {
-                    // Return a 429 Too Many Requests response
                     return StatusCode(429, "Too many requests. Please try again later.");
                 }
 
-                // Ensure a successful response
                 response.EnsureSuccessStatusCode();
 
-                // Read response content
                 string responseBody = await response.Content.ReadAsStringAsync();
 
-                // Return the response as IActionResult
                 return Ok(responseBody);
             }
             catch (HttpRequestException ex)
             {
-                // Log the error for troubleshooting
                 Console.WriteLine($"Error fetching country data: {ex.Message}");
-                // Return a 500 Internal Server Error response
                 return StatusCode(500, "An error occurred while fetching country data.");
             }
             catch (Exception ex)
             {
-                // Log any unexpected errors
                 Console.WriteLine($"Unexpected error: {ex.Message}");
-                // Return a 500 Internal Server Error response
                 return StatusCode(500, "An unexpected error occurred.");
             }
         }

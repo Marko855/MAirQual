@@ -1,9 +1,39 @@
 ﻿<Properties StartupConfiguration="{29690A72-88B3-4BE3-831F-FB2F847D57AC}|Default">
+  <MonoDevelop.Ide.ItemProperties.MAirQual PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="MAirQual/Services/UserService.cs">
+    <Files>
+      <File FileName="MAirQual/Pages/_ViewImports.cshtml" Line="1" Column="1" />
+      <File FileName="MAirQual/Pages/Error.cshtml" Line="1" Column="1" />
+      <File FileName="MAirQual/Models/ApplicationDbContext.cs" Line="14" Column="72" />
+      <File FileName="MAirQual/Models/FavoriteLocation.cs" Line="1" Column="1" />
+      <File FileName="MAirQual/Models/User.cs" Line="1" Column="1" />
+      <File FileName="MAirQual/Models/UserUpdate.cs" Line="1" Column="1" />
+      <File FileName="MAirQual/Pages/Error.cshtml.cs" Line="1" Column="1" />
+      <File FileName="MAirQual/Properties/launchSettings.json" Line="1" Column="1" />
+      <File FileName="MAirQual/appsettings.json" Line="1" Column="1" />
+      <File FileName="MAirQual/Program.cs" Line="58" Column="2" />
+      <File FileName="MAirQual/ClientApp/src/components/JS/Home.js" Line="19" Column="8" />
+      <File FileName="MAirQual/ClientApp/public/index.html" Line="1" Column="1" />
+      <File FileName="MAirQual/ClientApp/package.json" Line="1" Column="1" />
+      <File FileName="MAirQual/ClientApp/localhost.pem" Line="1" Column="1" />
+      <File FileName="MAirQual/ClientApp/localhost.key" Line="1" Column="1" />
+      <File FileName="MAirQual/ClientApp/aspnetcore-react.js" Line="1" Column="1" />
+      <File FileName="MAirQual/ClientApp/aspnetcore-https.js" Line="1" Column="1" />
+      <File FileName="MAirQual/ClientApp/README.md" Line="1" Column="1" />
+      <File FileName="MAirQual/ClientApp/src/App.js" Line="1" Column="1" />
+      <File FileName="MAirQual/ClientApp/src/setupProxy.js" Line="1" Column="1" />
+      <File FileName="MAirQual/ClientApp/src/serviceWorkerRegistration.js" Line="1" Column="1" />
+      <File FileName="MAirQual/ClientApp/src/service-worker.js" Line="1" Column="1" />
+      <File FileName="MAirQual/ClientApp/src/reportWebVitals.js" Line="1" Column="1" />
+      <File FileName="MAirQual/ClientApp/src/index.js" Line="1" Column="1" />
+      <File FileName="MAirQual/ClientApp/src/components/CSS/About.css" Line="1" Column="1" />
+      <File FileName="MAirQual/Controllers/FavoritesController.cs" Line="50" Column="1" />
+      <File FileName="MAirQual/DTO/FavoriteLocationRequest.cs" Line="8" Column="2" />
+      <File FileName="MAirQual/Controllers/RegistrationController.cs" Line="39" Column="14" />
+      <File FileName="MAirQual/Controllers/LoginController.cs" Line="25" Column="12" />
+      <File FileName="MAirQual/Services/UserService.cs" Line="18" Column="10" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
@@ -11,18 +41,23 @@
             <Node name="MAirQual">
               <Node name="Controllers" expanded="True" />
               <Node name="DTO" expanded="True" />
-              <Node name="Migrations" expanded="True">
-                <Node name="20240522222852_InitialCreate.cs" selected="True" />
+              <Node name="Migrations" expanded="True" />
+              <Node name="Pages" expanded="True">
+                <Node name="Error.cshtml" expanded="True" />
               </Node>
-              <Node name="Models" expanded="True" />
-              <Node name="Services" expanded="True" />
+              <Node name="Properties" expanded="True" />
+              <Node name="Services">
+                <Node name="UserService.cs" selected="True" />
+              </Node>
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.MAirQual PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
 </Properties>

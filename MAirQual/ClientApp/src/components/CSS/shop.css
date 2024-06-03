@@ -33,12 +33,12 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: background-color 0.3s, box-shadow 0.3s; /* Add box-shadow transition */
+    transition: background-color 0.3s, box-shadow 0.3s; 
 }
 
     .product-container:hover {
-        background-color: rgba(0, 0, 0, 0.2); /* Apply light black overlay on hover */
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a subtle shadow on hover */
+        background-color: rgba(0, 0, 0, 0.2); 
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
     }
 
 .product-grid {
@@ -53,11 +53,11 @@
     max-height: 300px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    transition: filter 0.3s; /* Add transition for smoother effect */
+    transition: filter 0.3s; 
 }
 
 .product-container:hover .product-image {
-    filter: grayscale(100%); /* Apply grayscale filter on hover */
+    filter: grayscale(100%); 
 }
 
 .product-details {
@@ -84,19 +84,19 @@
 }
 
 .add-to-cart-button {
-    position: absolute; /* Position the button absolutely */
-    top: 50%; /* Shift the button to the middle vertically */
-    left: 50%; /* Center the button horizontally */
-    transform: translate(-50%, -50%); /* Center the button perfectly */
+    position: absolute; 
+    top: 50%;
+    left: 50%; 
+    transform: translate(-50%, -50%);
     width: 120px;
     height: 40px;
     border-radius: 10px;
     background-color: #96c0fa;
-    display: none; /* Initially hide the button */
+    display: none; 
     justify-content: center;
     align-items: center;
 }
 
 .product-container:hover .add-to-cart-button {
-    display: flex; /* Show the button on hover */
+    display: flex; 
 }
